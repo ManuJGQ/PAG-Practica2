@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 #include "Structs.h"
@@ -18,8 +19,8 @@ private:
 public:
 	PagSubdivisionProfile();
 	PagSubdivisionProfile(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal);
-	PuntosPerfil& getPerfil() { return *perfilSubdividido; }
-	int getNumPuntosPerfil() { return numPuntosPerfilSubdividido; }
+	PuntosPerfil& getPerfil() const { return *perfilSubdividido; }
+	int getNumPuntosPerfil() const { return numPuntosPerfilSubdividido; }
 	~PagSubdivisionProfile();
 };
 

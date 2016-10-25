@@ -1,17 +1,18 @@
 #include "PagSubdivisionProfile.h"
 
-PagSubdivisionProfile::PagSubdivisionProfile() {};
+PagSubdivisionProfile::PagSubdivisionProfile() : perfilOriginal(nullptr),
+perfilSubdividido(nullptr), numDivisiones(0), numPuntosPerfilOriginal(0), numPuntosPerfilSubdividido(0) {};
 
 PagSubdivisionProfile::PagSubdivisionProfile(int _numPuntosPerfilOriginal, int _numDivisiones,
-	PuntosPerfil& _perfilOriginal): numPuntosPerfilOriginal(_numPuntosPerfilOriginal), 
-	numDivisiones(_numDivisiones){
+	PuntosPerfil& _perfilOriginal) : numDivisiones(_numDivisiones),
+	numPuntosPerfilOriginal(_numPuntosPerfilOriginal) {
 
 	perfilOriginal = &_perfilOriginal;
 
 	perfilSubdividido = perfilOriginal;
 	numPuntosPerfilSubdividido = numPuntosPerfilOriginal;
 
-	if(numPuntosPerfilOriginal > 2 && numDivisiones > 0) subdivisionPolilineas();
+	if (numPuntosPerfilOriginal > 2 && numDivisiones > 0) subdivisionPolilineas();
 }
 
 void PagSubdivisionProfile::subdivisionPolilineas() {
@@ -23,11 +24,11 @@ void PagSubdivisionProfile::subdivisionPolilineas() {
 		perfiltemporal = new PuntosPerfil[expectedNumberOfPoints];
 		perfiltemporal[0] = perfilSubdividido[0];
 		perfiltemporal[expectedNumberOfPoints - 1] = perfilSubdividido[numPuntos - 1];
-		for (int i = 1; i < numPuntos-1; i++) {
-			
+		for (int i = 1; i < numPuntos - 1; i++) {
+
 			PuntosPerfil h1;
-			h1.x = (perfilSubdividido[i-1].x + perfilSubdividido[i].x) / 2;
-			h1.y = (perfilSubdividido[i-1].y + perfilSubdividido[i].y) / 2;
+			h1.x = (perfilSubdividido[i - 1].x + perfilSubdividido[i].x) / 2;
+			h1.y = (perfilSubdividido[i - 1].y + perfilSubdividido[i].y) / 2;
 
 			PuntosPerfil h2;
 			h2.x = (perfilSubdividido[i].x + perfilSubdividido[i + 1].x) / 2;
@@ -39,7 +40,7 @@ void PagSubdivisionProfile::subdivisionPolilineas() {
 
 			perfiltemporal[(i * 2) - 1] = h1;
 			perfiltemporal[i * 2] = pi;
-			if(i == numPuntos - 2)perfiltemporal[(i * 2) + 1] = h2;
+			if (i == numPuntos - 2)perfiltemporal[(i * 2) + 1] = h2;
 
 		}
 		numPuntos = expectedNumberOfPoints;
@@ -50,6 +51,6 @@ void PagSubdivisionProfile::subdivisionPolilineas() {
 	}
 }
 
-PagSubdivisionProfile::~PagSubdivisionProfile(){
+PagSubdivisionProfile::~PagSubdivisionProfile() {
 	delete[] perfilOriginal;
 }

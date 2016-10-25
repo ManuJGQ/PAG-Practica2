@@ -18,14 +18,14 @@ public:
 	PagRevolutionObject();
 	PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal,
 		bool _flagBottomTape, bool _flagTopTape, int _slices);
-	Geometria& getGeometria() { return *geometria; }
-	CoordTexturas& getCoordText() { return *coordtext; }
-	int& getIndices() { return *indices; }
-	int& getIndicesBottomTape() { return *indicesBottomTape; }
-	int& getIndicesTopTape() { return *indicesTopTape; }
-	int getTamaGeometriaCoordText() { return tamaGeometriaCoordText; }
-	int getTamaIndices() { return tamaIndices; }
-	int getTamaIndicesTapes() { return slices + 1; }
+	Geometria& getGeometria() const { return *geometria; }
+	CoordTexturas& getCoordText() const { return *coordtext; }
+	int& getIndices() const { return *indices; }
+	int& getIndicesBottomTape() const { return *indicesBottomTape; }
+	int& getIndicesTopTape() const { return *indicesTopTape; }
+	int getTamaGeometriaCoordText() const { return tamaGeometriaCoordText; }
+	int getTamaIndices() const { return tamaIndices; }
+	int getTamaIndicesTapes() const { return slices + 1; }
 	~PagRevolutionObject();
 };
 

@@ -1,9 +1,10 @@
+#pragma once
 #include <iostream>
 #include "PagRevolutionObject.h"
 
 class PagAssistantClass{
 	PagRevolutionObject revolutionObject;
-	void devolverDatos();
+	void devolverDatos() const;
 	std::string nombreAlumno;
 	bool flagBottomTape;
 	bool flagTopTape;

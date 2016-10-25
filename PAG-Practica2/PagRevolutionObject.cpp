@@ -4,7 +4,9 @@
 
 #define PI 3.14159265358979323846
 
-PagRevolutionObject::PagRevolutionObject() {};
+PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
+geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
+indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0) {};
 
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones,
 	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) {
@@ -213,7 +215,7 @@ void PagRevolutionObject::revolution() {
 				coordtext[i].s = s;
 				coordtext[i].t = t;
 			}
-			if (flagTopTape){
+			if (flagTopTape) {
 				coordtext[(numPuntosPerfil - numTapas - 1) * slices + i].s = s;
 				coordtext[(numPuntosPerfil - numTapas - 1) * slices + i].t = t;
 			}

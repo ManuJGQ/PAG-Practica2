@@ -5,7 +5,7 @@
 
 #define Epsilon 0.000001
 
-PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::string _nombreAlumno){
+PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::string _nombreAlumno) {
 	int linea;
 	linea = _nombreAlumno.find('-');
 	nombreAlumno = _nombreAlumno.substr(0, linea);
@@ -44,7 +44,8 @@ PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::str
 				(puntos.x == 0 && (i > 0 && i < numPuntosPerfilOriginal - 1))) {
 				numPuntosPerfilOriginal--;
 				i--;
-			}else {
+			}
+			else {
 				if (puntos.x == 0) {
 					if (i == 0) flagBottomTape = true;
 					if (i == numPuntosPerfilOriginal - 1) flagTopTape = true;
@@ -69,7 +70,7 @@ PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::str
 
 		perfil = perfilTemp;
 
-		revolutionObject = PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, *perfil, 
+		revolutionObject = PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, *perfil,
 			flagBottomTape, flagTopTape, slices);
 
 		devolverDatos();
@@ -80,7 +81,7 @@ PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::str
 
 }
 
-void PagAssistantClass::devolverDatos() {
+void PagAssistantClass::devolverDatos() const {
 	Geometria *geometria = &revolutionObject.getGeometria();
 	CoordTexturas *coordtext = &revolutionObject.getCoordText();
 	int *indices = &revolutionObject.getIndices();
@@ -166,4 +167,4 @@ void PagAssistantClass::devolverDatos() {
 	}
 }
 
-PagAssistantClass::~PagAssistantClass(){}
+PagAssistantClass::~PagAssistantClass() {}
