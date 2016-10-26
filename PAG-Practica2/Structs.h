@@ -2,7 +2,7 @@
 #include <iostream>
 
 namespace Structs {
-	struct PuntosPerfil{
+	struct PuntosPerfil {
 		double x;
 		double y;
 	};
@@ -13,7 +13,7 @@ namespace Structs {
 		double z;
 	};
 
-	struct NormalesTangentes{
+	struct NormalesTangentes {
 		double x;
 		double y;
 		double z;
@@ -28,5 +28,11 @@ namespace Structs {
 		PuntosVertices vertice;
 		NormalesTangentes normal;
 		NormalesTangentes tangente;
+	};
+
+	struct Fichero {
+		std::string archivoIN;
+		int numSlices;
+		std::string nombreAlumno;
 	};
 }

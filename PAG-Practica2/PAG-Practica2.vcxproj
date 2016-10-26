@@ -131,14 +131,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pag3DGroup.cpp" />
+    <ClCompile Include="Pag3DObject.cpp" />
     <ClCompile Include="PagAssistantClass.cpp" />
-    <ClCompile Include="PagElement3D.cpp" />
+    <ClCompile Include="Pag3DElement.cpp" />
     <ClCompile Include="PagRevolutionObject.cpp" />
     <ClCompile Include="PagSubdivisionProfile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Pag3DGroup.h" />
+    <ClInclude Include="Pag3DObject.h" />
     <ClInclude Include="PagAssistantClass.h" />
-    <ClInclude Include="PagElement3D.h" />
+    <ClInclude Include="Pag3DElement.h" />
     <ClInclude Include="PagRevolutionObject.h" />
     <ClInclude Include="PagSubdivisionProfile.h" />
     <ClInclude Include="Structs.h" />

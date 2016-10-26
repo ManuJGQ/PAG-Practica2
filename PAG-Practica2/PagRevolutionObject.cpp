@@ -6,10 +6,15 @@
 
 PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
 geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
-indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0) {};
+indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0)
+{
+	std::cout << "DEFECTO" << std::endl;
+};
 
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones,
 	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) {
+
+	std::cout << "NORMAL" << std::endl;
 
 	flagBottomTape = _flagBottomTape;
 	flagTopTape = _flagTopTape;
@@ -22,6 +27,13 @@ PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numD
 	if (slices == 0) slices++;
 
 	revolution();
+}
+
+PagRevolutionObject::PagRevolutionObject(const PagRevolutionObject& orig) : flagBottomTape(false),
+flagTopTape(false), geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
+indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0)
+{
+	std::cout << "COPIA" << std::endl;
 }
 
 void PagRevolutionObject::revolution() {
@@ -296,4 +308,17 @@ void PagRevolutionObject::revolution() {
 	}
 }
 
-PagRevolutionObject::~PagRevolutionObject() {}
+PagRevolutionObject::~PagRevolutionObject() {
+	std::cout << "ENTRO" << std::endl;
+	if (destruir) {
+		std::cout << "BORRO" << std::endl;
+		std::cout << flagTopTape << std::endl;
+		delete[] geometria;
+		delete[] coordtext;
+		delete[] indices;
+		delete[] indicesBottomTape;
+		delete[] indicesTopTape;
+		std::cout << "BORRE" << std::endl;
+	}
+	else destruir = true;
+}

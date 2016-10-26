@@ -51,6 +51,4 @@ void PagSubdivisionProfile::subdivisionPolilineas() {
 	}
 }
 
-PagSubdivisionProfile::~PagSubdivisionProfile() {
-	delete[] perfilOriginal;
-}
+PagSubdivisionProfile::~PagSubdivisionProfile() {}

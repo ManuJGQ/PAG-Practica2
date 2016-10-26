@@ -9,7 +9,9 @@ class PagAssistantClass{
 	bool flagBottomTape;
 	bool flagTopTape;
 public:
+	PagAssistantClass();
 	PagAssistantClass(std::string archivoIN, int slices, std::string _nombreAlumno);
+	PagRevolutionObject getObject() const { return revolutionObject; }
 	~PagAssistantClass();
 };
 

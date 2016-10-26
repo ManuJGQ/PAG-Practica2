@@ -1,9 +1,11 @@
-#include <iostream>
+#pragma once
+
 #include "PagSubdivisionProfile.h"
 
 class PagRevolutionObject{
 	bool flagBottomTape;
 	bool flagTopTape;
+	bool destruir = false;
 	PagSubdivisionProfile subdivisionProfiles;
 	Geometria *geometria;
 	CoordTexturas *coordtext;
@@ -18,6 +20,7 @@ public:
 	PagRevolutionObject();
 	PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal,
 		bool _flagBottomTape, bool _flagTopTape, int _slices);
+	PagRevolutionObject(const PagRevolutionObject& orig);
 	Geometria& getGeometria() const { return *geometria; }
 	CoordTexturas& getCoordText() const { return *coordtext; }
 	int& getIndices() const { return *indices; }

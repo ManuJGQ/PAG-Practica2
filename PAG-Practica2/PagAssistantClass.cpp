@@ -5,6 +5,8 @@
 
 #define Epsilon 0.000001
 
+PagAssistantClass::PagAssistantClass(): flagBottomTape(false), flagTopTape(false) {}
+
 PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::string _nombreAlumno) {
 	int linea;
 	linea = _nombreAlumno.find('-');
