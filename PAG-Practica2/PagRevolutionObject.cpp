@@ -12,7 +12,9 @@ indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0)
 };
 
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones,
-	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) {
+	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) : 
+	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
+	indicesTopTape(nullptr), tamaGeometriaCoordText(0), tamaIndices(0) {
 
 	std::cout << "NORMAL" << std::endl;
 
@@ -26,15 +28,23 @@ PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numD
 
 	if (slices == 0) slices++;
 
-	revolution();
 }
 
-PagRevolutionObject::PagRevolutionObject(const PagRevolutionObject& orig) : flagBottomTape(false),
-flagTopTape(false), geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
-indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0)
-{
+void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 	std::cout << "COPIA" << std::endl;
+	flagBottomTape = orig.flagBottomTape;
+	flagTopTape = orig.flagTopTape;
+	slices = orig.slices;
+	subdivisionProfiles = orig.subdivisionProfiles;
+	geometria = nullptr;
+	coordtext = nullptr;
+	indices = nullptr;
+	indicesBottomTape = nullptr;
+	indicesTopTape = nullptr;
+	tamaGeometriaCoordText = 0;
+	tamaIndices = 0;
 }
+
 
 void PagRevolutionObject::revolution() {
 	int numPuntosPerfil = subdivisionProfiles.getNumPuntosPerfil();
@@ -309,16 +319,9 @@ void PagRevolutionObject::revolution() {
 }
 
 PagRevolutionObject::~PagRevolutionObject() {
-	std::cout << "ENTRO" << std::endl;
-	if (destruir) {
-		std::cout << "BORRO" << std::endl;
-		std::cout << flagTopTape << std::endl;
-		delete[] geometria;
-		delete[] coordtext;
-		delete[] indices;
-		delete[] indicesBottomTape;
-		delete[] indicesTopTape;
-		std::cout << "BORRE" << std::endl;
-	}
-	else destruir = true;
+	if (geometria != nullptr) delete[] geometria;
+	if (coordtext != nullptr) delete[] coordtext;
+	if (indices != nullptr) delete[] indices;
+	if (indicesBottomTape != nullptr) delete[] indicesBottomTape;
+	if (indicesTopTape != nullptr) delete[] indicesTopTape;
 }

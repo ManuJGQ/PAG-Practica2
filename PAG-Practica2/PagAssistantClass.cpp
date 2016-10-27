@@ -75,6 +75,9 @@ PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::str
 		revolutionObject = PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, *perfil,
 			flagBottomTape, flagTopTape, slices);
 
+		revolutionObject.subdivisionProfiles.subdivisionPolilineas();
+		revolutionObject.revolution();
+
 		devolverDatos();
 	}
 	catch (std::string &e) {

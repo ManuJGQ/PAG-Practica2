@@ -15,10 +15,11 @@ private:
 	int numDivisiones;
 	int numPuntosPerfilOriginal;
 	int numPuntosPerfilSubdividido;
-	void subdivisionPolilineas();
 public:
 	PagSubdivisionProfile();
 	PagSubdivisionProfile(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal);
+	void operator = (const PagSubdivisionProfile &orig);
+	void subdivisionPolilineas();
 	PuntosPerfil& getPerfil() const { return *perfilSubdividido; }
 	int getNumPuntosPerfil() const { return numPuntosPerfilSubdividido; }
 	~PagSubdivisionProfile();
