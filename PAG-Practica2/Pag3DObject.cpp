@@ -9,7 +9,8 @@ Pag3DObject::Pag3DObject(Structs::Fichero fichero) {
 }
 
 Pag3DObject::Pag3DObject(const Pag3DObject& orig) {
-
+	lectorDatos = orig.lectorDatos;
+	object = lectorDatos.getObject();
 }
 
 Pag3DObject::~Pag3DObject() {}
