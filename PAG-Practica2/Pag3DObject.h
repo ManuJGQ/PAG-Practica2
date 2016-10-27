@@ -10,6 +10,7 @@ class Pag3DObject : public Pag3DElement {
 public:
 	void draw() override;
 	Pag3DObject(Structs::Fichero fichero);
+	Pag3DObject(const Pag3DObject &orig);
 	~Pag3DObject();
 };
 

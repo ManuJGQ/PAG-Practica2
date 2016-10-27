@@ -5,7 +5,7 @@
 
 #define Epsilon 0.000001
 
-PagAssistantClass::PagAssistantClass(): flagBottomTape(false), flagTopTape(false) {}
+PagAssistantClass::PagAssistantClass() : flagBottomTape(false), flagTopTape(false) {}
 
 PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::string _nombreAlumno) {
 	int linea;
@@ -75,15 +75,24 @@ PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::str
 		revolutionObject = PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, *perfil,
 			flagBottomTape, flagTopTape, slices);
 
-		revolutionObject.subdivisionProfiles.subdivisionPolilineas();
-		revolutionObject.revolution();
-
-		devolverDatos();
 	}
 	catch (std::string &e) {
 		std::cout << "ERROR: " << e << std::endl;
 	}
 
+}
+
+void PagAssistantClass::operator=(const PagAssistantClass& orig) {
+	nombreAlumno = orig.nombreAlumno;
+	flagTopTape = orig.flagTopTape;
+	flagBottomTape = orig.flagBottomTape;
+	revolutionObject = orig.revolutionObject;
+}
+
+void PagAssistantClass::createObject() {
+	revolutionObject.subdivisionProfiles.subdivisionPolilineas();
+	revolutionObject.revolution();
+	devolverDatos();
 }
 
 void PagAssistantClass::devolverDatos() const {

@@ -6,17 +6,12 @@
 
 PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
 geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
-indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0)
-{
-	std::cout << "DEFECTO" << std::endl;
-};
+indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0) {};
 
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones,
 	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) : 
 	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
 	indicesTopTape(nullptr), tamaGeometriaCoordText(0), tamaIndices(0) {
-
-	std::cout << "NORMAL" << std::endl;
 
 	flagBottomTape = _flagBottomTape;
 	flagTopTape = _flagTopTape;
@@ -31,7 +26,6 @@ PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numD
 }
 
 void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
-	std::cout << "COPIA" << std::endl;
 	flagBottomTape = orig.flagBottomTape;
 	flagTopTape = orig.flagTopTape;
 	slices = orig.slices;

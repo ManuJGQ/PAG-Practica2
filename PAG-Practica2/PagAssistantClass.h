@@ -11,6 +11,8 @@ class PagAssistantClass{
 public:
 	PagAssistantClass();
 	PagAssistantClass(std::string archivoIN, int slices, std::string _nombreAlumno);
+	void operator = (const PagAssistantClass &orig);
+	void createObject();
 	PagRevolutionObject getObject() const { return revolutionObject; }
 	~PagAssistantClass();
 };
