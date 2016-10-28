@@ -9,7 +9,7 @@ geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(null
 indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0) {};
 
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones,
-	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) : 
+	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) :
 	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
 	indicesTopTape(nullptr), tamaGeometriaCoordText(0), tamaIndices(0) {
 
@@ -29,14 +29,51 @@ void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 	flagBottomTape = orig.flagBottomTape;
 	flagTopTape = orig.flagTopTape;
 	slices = orig.slices;
+	tamaGeometriaCoordText = orig.tamaGeometriaCoordText;
+	tamaIndices = orig.tamaIndices;
 	subdivisionProfiles = orig.subdivisionProfiles;
-	geometria = nullptr;
-	coordtext = nullptr;
-	indices = nullptr;
-	indicesBottomTape = nullptr;
-	indicesTopTape = nullptr;
-	tamaGeometriaCoordText = 0;
-	tamaIndices = 0;
+
+	if (orig.geometria != nullptr) {
+		geometria = new Geometria[tamaGeometriaCoordText];
+		for (int i = 0; i < tamaGeometriaCoordText; i++) {
+			geometria[i].vertice = orig.geometria[i].vertice;
+			geometria[i].normal = orig.geometria[i].normal;
+			geometria[i].tangente = orig.geometria[i].tangente;
+		}
+	}
+	else geometria = nullptr;
+
+	if (orig.coordtext != nullptr) {
+		coordtext = new CoordTexturas[tamaGeometriaCoordText];
+		for (int i = 0; i < tamaGeometriaCoordText; i++) {
+			coordtext[i] = orig.coordtext[i];
+		}
+	}
+	else coordtext = nullptr;
+
+	if (orig.indices != nullptr) {
+		indices = new int[tamaIndices];
+		for (int i = 0; i < tamaIndices; i++) {
+			indices[i] = orig.indices[i];
+		}
+	}
+	else indices = nullptr;
+
+	if (orig.indicesBottomTape != nullptr) {
+		indicesBottomTape = new int[slices + 1];
+		for (int i = 0; i < slices + 1; i++) {
+			indicesBottomTape[i] = orig.indicesBottomTape[i];
+		}
+	}
+	else indicesBottomTape = nullptr;
+
+	if (orig.indicesTopTape != nullptr) {
+		indicesTopTape = new int[slices + 1];
+		for (int i = 0; i < slices + 1; i++) {
+			indicesTopTape[i] = orig.indicesTopTape[i];
+		}
+	}
+	else indicesTopTape = nullptr;
 }
 
 

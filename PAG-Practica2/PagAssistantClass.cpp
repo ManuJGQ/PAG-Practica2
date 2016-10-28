@@ -89,12 +89,6 @@ void PagAssistantClass::operator=(const PagAssistantClass& orig) {
 	revolutionObject = orig.revolutionObject;
 }
 
-void PagAssistantClass::createObject() {
-	revolutionObject.subdivisionProfiles.subdivisionPolilineas();
-	revolutionObject.revolution();
-	devolverDatos();
-}
-
 void PagAssistantClass::devolverDatos() const {
 	Geometria *geometria = &revolutionObject.getGeometria();
 	CoordTexturas *coordtext = &revolutionObject.getCoordText();
