@@ -1,7 +1,9 @@
 #include "Pag3DGroup.h"
 #include "Pag3DObject.h"
 
-void Pag3DGroup::draw() {}
+void Pag3DGroup::draw(GLFWwindow *_window) {
+	
+}
 
 Pag3DGroup::Pag3DGroup(Structs::Fichero ficheros[], int _numFicheros) : numFicheros(_numFicheros) {
 	elements = new Pag3DElement*[numFicheros];

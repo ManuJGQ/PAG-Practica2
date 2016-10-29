@@ -35,4 +35,5 @@ namespace Structs {
 		int numSlices;
 		std::string nombreAlumno;
 	};
+
 }

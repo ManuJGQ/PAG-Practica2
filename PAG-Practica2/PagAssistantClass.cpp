@@ -9,8 +9,9 @@ PagAssistantClass::PagAssistantClass() : slices(0), flagBottomTape(false), flagT
 }
 
 PagAssistantClass::PagAssistantClass(std::string archivoIN, int _slices, std::string _nombreAlumno) :
-	slices(_slices), flagBottomTape(false), flagTopTape(false), archivo(archivoIN),
-	nombreAlumno(_nombreAlumno) {}
+	nombreAlumno(_nombreAlumno), archivo(archivoIN), slices(_slices), flagBottomTape(false),
+	flagTopTape(false) {
+}
 
 void PagAssistantClass::operator=(const PagAssistantClass& orig) {
 	nombreAlumno = orig.nombreAlumno;
@@ -73,6 +74,8 @@ PagRevolutionObject PagAssistantClass::leerDatos() {
 		}
 
 		archivoPuntosPerfil.close();
+
+		std::cout << "CREO" << std::endl;
 
 		PuntosPerfil *perfilTemp = new PuntosPerfil[numPuntosPerfilOriginal];
 		for (int i = 0; i < numPuntosPerfilOriginal; i++) {
