@@ -5,23 +5,34 @@
 
 #define Epsilon 0.000001
 
-PagAssistantClass::PagAssistantClass() : flagBottomTape(false), flagTopTape(false) {}
+PagAssistantClass::PagAssistantClass() : slices(0), flagBottomTape(false), flagTopTape(false) {
+}
 
-PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::string _nombreAlumno) {
+PagAssistantClass::PagAssistantClass(std::string archivoIN, int _slices, std::string _nombreAlumno) :
+	slices(_slices), flagBottomTape(false), flagTopTape(false), archivo(archivoIN),
+	nombreAlumno(_nombreAlumno) {}
+
+void PagAssistantClass::operator=(const PagAssistantClass& orig) {
+	nombreAlumno = orig.nombreAlumno;
+	slices = orig.slices;
+	archivo = orig.archivo;
+	flagTopTape = orig.flagTopTape;
+	flagBottomTape = orig.flagBottomTape;
+}
+
+PagRevolutionObject PagAssistantClass::leerDatos() {
 	int linea;
-	linea = _nombreAlumno.find('-');
-	nombreAlumno = _nombreAlumno.substr(0, linea);
+	linea = nombreAlumno.find('-');
+	nombreAlumno = nombreAlumno.substr(0, linea);
 
 	std::string linea_actual;
 	int numPuntosPerfilOriginal;
 	int numDivisiones;
 	int coma;
-	flagBottomTape = false;
-	flagTopTape = false;
 	try {
 		// Leemos la primera linea del archivo
 		std::ifstream archivoPuntosPerfil;
-		archivoPuntosPerfil.open(archivoIN);
+		archivoPuntosPerfil.open(archivo);
 
 		if (!archivoPuntosPerfil.good()) throw std::string("No se puedo leer el archivo");
 
@@ -72,7 +83,7 @@ PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::str
 
 		perfil = perfilTemp;
 
-		revolutionObject = PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, *perfil,
+		return PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, *perfil,
 			flagBottomTape, flagTopTape, slices);
 
 	}
@@ -82,20 +93,13 @@ PagAssistantClass::PagAssistantClass(std::string archivoIN, int slices, std::str
 
 }
 
-void PagAssistantClass::operator=(const PagAssistantClass& orig) {
-	nombreAlumno = orig.nombreAlumno;
-	flagTopTape = orig.flagTopTape;
-	flagBottomTape = orig.flagBottomTape;
-	revolutionObject = orig.revolutionObject;
-}
-
-void PagAssistantClass::devolverDatos() const {
-	Geometria *geometria = &revolutionObject.getGeometria();
-	CoordTexturas *coordtext = &revolutionObject.getCoordText();
-	int *indices = &revolutionObject.getIndices();
-	int tamaGeometriaCoordText = revolutionObject.getTamaGeometriaCoordText();
-	int tamaIndices = revolutionObject.getTamaIndices();
-	int tamIndicesTapes = revolutionObject.getTamaIndicesTapes();
+void PagAssistantClass::devolverDatos(const PagRevolutionObject &object) const {
+	Geometria *geometria = &object.getGeometria();
+	CoordTexturas *coordtext = &object.getCoordText();
+	int *indices = &object.getIndices();
+	int tamaGeometriaCoordText = object.getTamaGeometriaCoordText();
+	int tamaIndices = object.getTamaIndices();
+	int tamIndicesTapes = object.getTamaIndicesTapes();
 
 	char* docdir = getenv("userprofile");
 	std::string path = docdir;
@@ -149,7 +153,7 @@ void PagAssistantClass::devolverDatos() const {
 	ficheroInd.close();
 
 	if (flagBottomTape) {
-		int *indicesBottom = &revolutionObject.getIndicesBottomTape();
+		int *indicesBottom = &object.getIndicesBottomTape();
 		nombreFichero = path;
 		nombreFichero += "-out-ind_BottomTape.txt";
 		std::ofstream ficheroIndBottom;
@@ -162,7 +166,7 @@ void PagAssistantClass::devolverDatos() const {
 	}
 
 	if (flagTopTape) {
-		int *indicesTop = &revolutionObject.getIndicesTopTape();
+		int *indicesTop = &object.getIndicesTopTape();
 		nombreFichero = path;
 		nombreFichero += "-out-ind_TopTape.txt";
 		std::ofstream ficheroIndTop;
