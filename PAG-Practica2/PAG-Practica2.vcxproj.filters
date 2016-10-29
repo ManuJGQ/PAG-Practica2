@@ -36,6 +36,9 @@
     <ClCompile Include="Pag3DObject.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="PagShaderProgram.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PagAssistantClass.h">
@@ -59,5 +62,22 @@
     <ClInclude Include="Pag3DObject.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="PagShaderProgram.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="points.frag">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="points.vert">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="pointsMultiColor.frag">
+      <Filter>Archivos de recursos</Filter>
+    </None>
+    <None Include="pointsMultiColor.vert">
+      <Filter>Archivos de recursos</Filter>
+    </None>
   </ItemGroup>
 </Project>

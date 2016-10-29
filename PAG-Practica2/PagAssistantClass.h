@@ -13,6 +13,7 @@ public:
 	void operator = (const PagAssistantClass &orig);
 	void devolverDatos() const;
 	PagRevolutionObject getObject() const { return revolutionObject; }
+	void setObject(const PagRevolutionObject &_object ) { revolutionObject = _object; }
 	~PagAssistantClass();
 };
 

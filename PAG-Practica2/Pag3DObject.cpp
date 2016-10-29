@@ -13,4 +13,11 @@ Pag3DObject::Pag3DObject(const Pag3DObject& orig) {
 	object = lectorDatos.getObject();
 }
 
+void Pag3DObject::createObject() {
+	object.subdivisionProfiles.subdivisionPolilineas();
+	object.revolution();
+	lectorDatos.setObject(object);
+	lectorDatos.devolverDatos();
+}
+
 Pag3DObject::~Pag3DObject() {}

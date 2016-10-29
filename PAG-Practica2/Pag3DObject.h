@@ -11,6 +11,7 @@ public:
 	void draw() override;
 	Pag3DObject(Structs::Fichero fichero);
 	Pag3DObject(const Pag3DObject &orig);
+	void createObject();
 	~Pag3DObject();
 };
 
