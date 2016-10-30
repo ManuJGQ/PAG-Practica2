@@ -188,9 +188,11 @@ void PagRevolutionObject::revolution() {
 					geometria[(j - cambioIndice) * slices + i].normal = normal;
 				}
 				else {
-					PuntosVertices p1 = geometria[(j - 1) * slices + i - 1].vertice;
-					PuntosVertices pi = geometria[(j - 1) * slices + i].vertice;
-					PuntosVertices p2 = geometria[(j - 1) * slices + i + 1].vertice;
+					PuntosVertices p1;
+					if (j == 0) p1 = { 0,0,0 };
+					else p1 = geometria[(j - cambioIndice) * slices + i - 1].vertice;
+					PuntosVertices pi = geometria[(j - cambioIndice) * slices + i].vertice;
+					PuntosVertices p2 = geometria[(j - cambioIndice) * slices + i + 1].vertice;
 
 					PuntosVertices v1;
 					v1.x = pi.x - p1.x;
