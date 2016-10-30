@@ -488,7 +488,7 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 		glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
 		glm::mat4 ModelViewMatrix = glm::mat4(1.0f);
 		ProjectionMatrix *= glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
-		ModelViewMatrix*= glm::lookAt(glm::vec3(5.0, 0.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		ModelViewMatrix*= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 		
 		glm::mat4 ModelViewProjectionMatrix = ProjectionMatrix * ModelViewMatrix;
 
