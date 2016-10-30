@@ -408,7 +408,7 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 	}
 
 	GLuint *_indicesBottom = nullptr;
-	if(flagBottomTape) {
+	if (flagBottomTape) {
 		_indicesBottom = new GLuint[slices + 1];
 		for (int i = 0; i < slices + 1; i++) {
 			_indicesBottom[i] = (GLuint)indicesBottomTape[i];
@@ -468,13 +468,13 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (tamaIndices - slices), _indices, GL_STATIC_DRAW);
 
-	if(flagBottomTape) {
+	if (flagBottomTape) {
 		glGenBuffers(1, &iboBottomTape);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboBottomTape);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (slices + 1), _indicesBottom, GL_STATIC_DRAW);
 	}
 
-	if(flagTopTape) {
+	if (flagTopTape) {
 		glGenBuffers(1, &iboTopTape);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboTopTape);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (slices + 1), _indicesTop, GL_STATIC_DRAW);
@@ -484,12 +484,12 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		pepe.use();
 		pepe.setUniform("pointSize", 4.0f);
-		
+
 		glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
 		glm::mat4 ModelViewMatrix = glm::mat4(1.0f);
 		ProjectionMatrix *= glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
-		ModelViewMatrix*= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-		
+		ModelViewMatrix *= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+
 		glm::mat4 ModelViewProjectionMatrix = ProjectionMatrix * ModelViewMatrix;
 
 		//pepe.setUniform("vColor", glm::vec3(0.0f, 0.0f, 1.0f));		//No esta en el shader
@@ -501,12 +501,12 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		glDrawElements(GL_POINTS, (sizeof(GLuint) * (tamaIndices - slices)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
 
-		if(flagBottomTape) {
+		if (flagBottomTape) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboBottomTape);
 			glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
 		}
 
-		if(flagTopTape) {
+		if (flagTopTape) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboTopTape);
 			glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
 		}
@@ -514,6 +514,11 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
 	} while (glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0);
+
+	delete[] pointsColor;
+	delete[] _indices;
+	if (flagTopTape) delete[] _indicesTop;
+	if (flagBottomTape) delete[] _indicesBottom;
 }
 
 PagRevolutionObject::~PagRevolutionObject() {
