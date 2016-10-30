@@ -8,6 +8,10 @@
 #include "Structs.h"
 
 int main(int argc, char** argv) {
+	/*int perfiles;
+	std::cout << "Introduce el numero de perfiles" << std::endl;
+	std::cin >> perfiles;*/
+	
 	char* docdir = getenv("userprofile");
 	std::string path = docdir;
 	std::string archivo;
