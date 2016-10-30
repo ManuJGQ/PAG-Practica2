@@ -407,12 +407,30 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 		}
 	}
 
+	GLuint *_indicesBottom = nullptr;
+	if(flagBottomTape) {
+		_indicesBottom = new GLuint[slices + 1];
+		for (int i = 0; i < slices + 1; i++) {
+			_indicesBottom[i] = (GLuint)indicesBottomTape[i];
+			pointsColor[_indicesBottom[i]].color = glm::vec3(1.0, 0.0, 0.0);
+		}
+	}
+
+	GLuint *_indicesTop = nullptr;
+	if (flagTopTape) {
+		_indicesTop = new GLuint[slices + 1];
+		for (int i = 0; i < slices + 1; i++) {
+			_indicesTop[i] = (GLuint)indicesTopTape[i];
+			pointsColor[_indicesTop[i]].color = glm::vec3(0.0, 0.0, 1.0);
+		}
+	}
 
 	GLuint vao;
 	GLuint vbo;
 	//GLuint vboSize;
 	GLuint ibo;
-	//GLuint iboLeft;
+	GLuint iboBottomTape;
+	GLuint iboTopTape;
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -450,9 +468,17 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (tamaIndices - slices), _indices, GL_STATIC_DRAW);
 
-	/*glGenBuffers(1, &iboLeft);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboLeft);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesLeft), indicesLeft, GL_STATIC_DRAW);*/
+	if(flagBottomTape) {
+		glGenBuffers(1, &iboBottomTape);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboBottomTape);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (slices + 1), _indicesBottom, GL_STATIC_DRAW);
+	}
+
+	if(flagTopTape) {
+		glGenBuffers(1, &iboTopTape);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboTopTape);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (slices + 1), _indicesTop, GL_STATIC_DRAW);
+	}
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -471,9 +497,20 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 
 		pepe.setUniform("mvpMatrix", ModelViewProjectionMatrix);
 		glBindVertexArray(vao);
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboLeft);
 		glDrawElements(GL_POINTS, (sizeof(GLuint) * (tamaIndices - slices)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+
+		if(flagBottomTape) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboBottomTape);
+			glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+		}
+
+		if(flagTopTape) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboTopTape);
+			glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+		}
+
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
 	} while (glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0);
