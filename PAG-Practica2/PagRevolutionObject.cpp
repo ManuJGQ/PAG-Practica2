@@ -368,9 +368,9 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 	//pepe.createShaderProgram("points");
 	pepe.createShaderProgram("pointsMultiColor");
 
-	GLfloat sizes[] = { 8.0f, 10.0f , 20.0f , 15.0f , 8.0f, 30.0f, 12.0f, 22.0f };
+	//GLfloat sizes[] = { 8.0f, 10.0f , 20.0f , 15.0f , 8.0f, 30.0f, 12.0f, 22.0f };
 
-	PagPositionColor geometry[] = {
+	/*PagPositionColor geometry[] = {
 
 		{ glm::vec3(-1.0, -1.0, -10.0), glm::vec3(1.0, 0.0, 0.0) },
 		{ glm::vec3(1.0,  -1.0, -10.0), glm::vec3(1.0, 0.0, 0.0) },
@@ -380,9 +380,9 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 		{ glm::vec3(1.0, -1.0, -5.0), glm::vec3(0.0, 0.0, 1.0) },
 		{ glm::vec3(-1.0, 1.0, -5.0), glm::vec3(0.0, 0.0, 1.0) },
 		{ glm::vec3(1.0, 1.0, -5.0), glm::vec3(0.0, 0.0, 0.0) },
-	};
+	};*/
 
-	glm::vec3 points[] = {
+	/*glm::vec3 points[] = {
 		glm::vec3(1.0, -1.0, -10.0),
 		glm::vec3(-1.0,  1.0, -10.0),
 		glm::vec3(1.0,  1.0, -10.0),
@@ -390,16 +390,29 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 		glm::vec3(1.0, -1.0, -5.0),
 		glm::vec3(-1.0,  1.0, -5.0),
 		glm::vec3(1.0,  1.0, -5.0)
-	};
+	};*/
 
-	GLuint indices[] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-	GLuint indicesLeft[] = { 0, 2, 4, 6 };
+	PagPositionColor *pointsColor = new PagPositionColor[tamaGeometriaCoordText];
+	for (int i = 0; i < tamaGeometriaCoordText; i++) {
+		pointsColor[i] = { glm::vec3((GLfloat)geometria[i].vertice.x, (GLfloat)geometria[i].vertice.y, (GLfloat)geometria[i].vertice.z),
+							glm::vec3(0.0, 0.0, 0.0) };
+	}
+
+	int j = 0;
+	GLuint *_indices = new GLuint[tamaIndices - slices];
+	for (int i = 0; i < tamaIndices; i++) {
+		if (indices[i] != 0xFFFF) {
+			_indices[j] = (GLuint)indices[i];
+			j++;
+		}
+	}
+
 
 	GLuint vao;
 	GLuint vbo;
-	GLuint vboSize;
+	//GLuint vboSize;
 	GLuint ibo;
-	GLuint iboLeft;
+	//GLuint iboLeft;
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -413,45 +426,54 @@ void PagRevolutionObject::draw(GLFWwindow *_window) {
 
 	glVertexAttribPointer(0, sizeof(glm::vec3) / sizeof(GLfloat),
 		GL_FLOAT, GL_FALSE, sizeof(PagPositionColor),						//POSITIONS
-		((GLubyte *)NULL + (0)));
+		((GLubyte *)nullptr + (0)));
 	//MULTICOLOR
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, sizeof(glm::vec3) / sizeof(GLfloat),
 		GL_FLOAT, GL_FALSE, sizeof(PagPositionColor),						//COLORS
-		((GLubyte *)NULL + (sizeof(glm::vec3))));
+		((GLubyte *)nullptr + (sizeof(glm::vec3))));
 
 	//glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(PagPositionColor) * tamaGeometriaCoordText, pointsColor, GL_STATIC_DRAW);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(geometry), geometry, GL_STATIC_DRAW);
+	//glGenBuffers(1, &vboSize);
+	//glBindBuffer(GL_ARRAY_BUFFER, vboSize);									//Enlazamos en nuevo vbo
 
-	glGenBuffers(1, &vboSize);
-	glBindBuffer(GL_ARRAY_BUFFER, vboSize);									//Enlazamos en nuevo vbo
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, sizeof(GLfloat) / sizeof(GLfloat),
+	//	GL_FLOAT, GL_FALSE, sizeof(GLfloat),						//TAMAÑOS
+	//	((GLubyte *)NULL + (0)));
 
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, sizeof(GLfloat) / sizeof(GLfloat),
-		GL_FLOAT, GL_FALSE, sizeof(GLfloat),						//TAMAÑOS
-		((GLubyte *)NULL + (0)));
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(sizes), sizes, GL_STATIC_DRAW);
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(sizes), sizes, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (tamaIndices - slices), _indices, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &iboLeft);
+	/*glGenBuffers(1, &iboLeft);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboLeft);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesLeft), indicesLeft, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesLeft), indicesLeft, GL_STATIC_DRAW);*/
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT);
 		pepe.use();
-		//pepe.setUniform("pointSize", 8.0f);
+		pepe.setUniform("pointSize", 4.0f);
+		
+		glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
+		glm::mat4 ModelViewMatrix = glm::mat4(1.0f);
+		ProjectionMatrix *= glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
+		ModelViewMatrix*= glm::lookAt(glm::vec3(5.0, 0.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		
+		glm::mat4 ModelViewProjectionMatrix = ProjectionMatrix * ModelViewMatrix;
+
 		//pepe.setUniform("vColor", glm::vec3(0.0f, 0.0f, 1.0f));		//No esta en el shader
-		pepe.setUniform("mvpMatrix", glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f));
+		//pepe.setUniform("mvpMatrix", glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f));
+
+		pepe.setUniform("mvpMatrix", ModelViewProjectionMatrix);
 		glBindVertexArray(vao);
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboLeft);
-		glDrawElements(GL_POINTS, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboLeft);
+		glDrawElements(GL_POINTS, (sizeof(GLuint) * (tamaIndices - slices)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
 		glfwSwapBuffers(_window);
 		glfwPollEvents();
 	} while (glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0);

@@ -33,8 +33,8 @@ GLuint PagShaderProgram::createShaderProgram(const char *fileName) {
 	strcpy_s(fileNameComplete, fileName);
 	strcat_s(fileNameComplete, ".frag");
 	GLuint fragmentShaderObject = compileShader(fileNameComplete, GL_FRAGMENT_SHADER);
-	if (fragmentShaderObject == 0) { 
-		return 0; 
+	if (fragmentShaderObject == 0) {
+		return 0;
 	}
 
 	glAttachShader(handler, vertexShaderObject);
@@ -56,7 +56,8 @@ GLuint PagShaderProgram::createShaderProgram(const char *fileName) {
 			std::cout << "Cannot link shader " << fileName << std::endl << logString << std::endl;
 		}
 		return 0;
-	} else {
+	}
+	else {
 		linked = true;
 	}
 
@@ -67,7 +68,8 @@ bool PagShaderProgram::use() {
 	if ((handler > 0) && (linked)) {
 		glUseProgram(handler);
 		return true;
-	} else {
+	}
+	else {
 		std::cout << "Cannot use shader program";
 		return false;
 	}
@@ -78,7 +80,8 @@ bool PagShaderProgram::setUniform(std::string name, GLint value) {
 	if (location >= 0) {
 		glUniform1i(location, value);
 		return true;
-	} else {
+	}
+	else {
 		std::cout << "Cannot find localization for: " << name << std::endl;
 		return false;
 	}
@@ -89,7 +92,8 @@ bool PagShaderProgram::setUniform(std::string name, GLfloat value) {
 	if (location >= 0) {
 		glUniform1f(location, value);
 		return true;
-	} else {
+	}
+	else {
 		std::cout << "Cannot find localization for: " << name << std::endl;
 		return false;
 	}
@@ -100,7 +104,8 @@ bool PagShaderProgram::setUniform(std::string name, glm::mat4 value) {
 	if (location >= 0) {
 		glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
 		return true;
-	} else {
+	}
+	else {
 		std::cout << "Cannot find localization for: " << name << std::endl;
 		return false;
 	}
@@ -167,8 +172,7 @@ GLuint PagShaderProgram::compileShader(const char *filename, GLenum shaderType) 
 	return shaderHandler;
 }
 
-bool PagShaderProgram::fileExists(const std::string & fileName)
-{
+bool PagShaderProgram::fileExists(const std::string & fileName) {
 	struct stat info;
 	int ret = -1;
 
