@@ -104,7 +104,7 @@ void PagRevolutionObject::revolution() {
 	}
 
 	tamaGeometriaCoordText = ((numPuntosPerfil - numTapas) * slices) + numTapas;
-	tamaIndices = (((numPuntosPerfil - (numTapas * 2)) * 2) + 1) * slices;
+	tamaIndices = (((numPuntosPerfil - (numTapas)) * 2) + 1) * slices;
 	geometria = new Geometria[tamaGeometriaCoordText];
 	coordtext = new CoordTexturas[tamaGeometriaCoordText];
 	indices = new int[tamaIndices];
@@ -350,7 +350,7 @@ void PagRevolutionObject::revolution() {
 	}
 	int k = 0;
 	for (int i = 0; i < slices; i++) {
-		for (int j = cambioIndice * 2; j < numPuntosPerfil - ((cambioIndice - numTapas) * -2); j++) {
+		for (int j = 0; j < numPuntosPerfil - ((cambioIndice - numTapas) * -2); j++) {
 			indices[k] = i + (j * slices);
 			indices[k + 1] = ((i + 1) % slices) + (j * slices);
 			k += 2;
