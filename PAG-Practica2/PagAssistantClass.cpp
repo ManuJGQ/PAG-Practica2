@@ -75,8 +75,6 @@ PagRevolutionObject PagAssistantClass::leerDatos() {
 
 		archivoPuntosPerfil.close();
 
-		std::cout << "CREO" << std::endl;
-
 		PuntosPerfil *perfilTemp = new PuntosPerfil[numPuntosPerfilOriginal];
 		for (int i = 0; i < numPuntosPerfilOriginal; i++) {
 			perfilTemp[i] = perfil[i];

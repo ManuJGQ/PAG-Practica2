@@ -5,30 +5,48 @@
 #include <GLFW/glfw3.h>
 
 #include "Pag3DObject.h"
+#include "Pag3DGroup.h"
 #include "Structs.h"
 
 int main(int argc, char** argv) {
-	/*int perfiles;
+	int perfiles;
 	std::cout << "Introduce el numero de perfiles" << std::endl;
-	std::cin >> perfiles;*/
-	
-	char* docdir = getenv("userprofile");
-	std::string path = docdir;
-	std::string archivo;
-	path += "/Desktop/";
-	std::cout << "Escriba el nombre del fichero (con .txt)" << std::endl;
-	std::getline(std::cin, archivo);
-	path += archivo;
+	std::cin >> perfiles;
+
+	Fichero *ficheros = new Fichero[perfiles];
+
+	int j = perfiles;
+	while (j != 0) {
+		char* docdir = getenv("userprofile");
+		std::string path = docdir;
+		std::string archivo;
+		path += "/Desktop/";
+		std::cout << "Escriba el nombre del fichero " << perfiles - j + 1 << " (con .txt)" << std::endl;
+		std::cin >> archivo;
+		path += archivo;
+
+		Fichero _fichero;
+		_fichero.nombreAlumno = archivo;
+		_fichero.archivoIN = path;
+		ficheros[perfiles - j] = _fichero;
+		j--;
+	}
 
 	int slices;
 	std::cout << "Escriba el numero de slices" << std::endl;
 	std::cin >> slices;
-	Fichero _fichero;
-	_fichero.nombreAlumno = archivo;
-	_fichero.numSlices = slices;
-	_fichero.archivoIN = path;
-	Pag3DObject object = Pag3DObject(Structs::Fichero(_fichero));
-	
+
+	for (int i = 0; i < perfiles; i++) {
+		ficheros[i].numSlices = slices;
+	}
+	Pag3DGroup objects;
+	Pag3DObject object;
+	if (perfiles > 1) {
+		objects = Pag3DGroup(ficheros, perfiles);
+	}
+	else object = Pag3DObject(Structs::Fichero(ficheros[0]));
+
+
 	std::cout << "Starting application" << std::endl;
 
 	if (!glfwInit()) {
@@ -69,8 +87,15 @@ int main(int argc, char** argv) {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	glViewport(0, 0, 1024, 768);
 
-	object.createObject();
-	object.draw(window);
+	if (perfiles > 1) {
+		objects.createObject();
+		objects.draw(window);
+	}
+	else {
+		object.createObject();
+		object.draw(window);
+	}
+	delete[] ficheros;
 	system("pause");
 	return 0;
 }

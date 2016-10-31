@@ -9,9 +9,11 @@ class Pag3DObject : public Pag3DElement {
 	PagRevolutionObject object;
 public:
 	void draw(GLFWwindow *_window) override;
+	Pag3DObject();
 	Pag3DObject(Structs::Fichero fichero);
 	Pag3DObject(const Pag3DObject &orig);
-	void createObject();
+	void operator = (const Pag3DObject &orig);
+	void createObject() override;
 	~Pag3DObject();
 };
 
