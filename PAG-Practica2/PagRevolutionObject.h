@@ -20,7 +20,7 @@ public:
 		bool _flagBottomTape, bool _flagTopTape, int _slices);
 	void operator = (const PagRevolutionObject &orig);
 	void revolution();
-	void draw(GLFWwindow *_window);
+	void draw(GLFWwindow *_window, int nobject);
 	Geometria& getGeometria() const { return *geometria; }
 	CoordTexturas& getCoordText() const { return *coordtext; }
 	int& getIndices() const { return *indices; }

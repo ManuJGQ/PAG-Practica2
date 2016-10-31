@@ -360,7 +360,7 @@ void PagRevolutionObject::revolution() {
 	}
 }
 
-void PagRevolutionObject::draw(GLFWwindow *_window) {
+void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 	struct PagPositionColor {
 		glm::vec3 position;
 		glm::vec3 color;

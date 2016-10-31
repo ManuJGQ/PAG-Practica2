@@ -1,9 +1,9 @@
 #include "Pag3DGroup.h"
 #include "Pag3DObject.h"
 
-void Pag3DGroup::draw(GLFWwindow *_window) {
+void Pag3DGroup::draw(GLFWwindow *_window, int nobject) {
 	for (int i = 0; i < numFicheros; i++) {
-		elements[i]->draw(_window);
+		elements[i]->draw(_window, i);
 	}
 }
 

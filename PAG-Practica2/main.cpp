@@ -89,11 +89,11 @@ int main(int argc, char** argv) {
 
 	if (perfiles > 1) {
 		objects.createObject();
-		objects.draw(window);
+		objects.draw(window, perfiles);
 	}
 	else {
 		object.createObject();
-		object.draw(window);
+		object.draw(window, 0);
 	}
 	delete[] ficheros;
 	system("pause");

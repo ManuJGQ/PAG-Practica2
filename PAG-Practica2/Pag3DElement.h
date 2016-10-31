@@ -5,7 +5,7 @@
 
 class Pag3DElement{
 public:
-	virtual void draw(GLFWwindow *_window) = 0;
+	virtual void draw(GLFWwindow *_window, int nobject) = 0;
 	virtual void createObject() = 0;
 	Pag3DElement();
 	virtual ~Pag3DElement();
