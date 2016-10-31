@@ -429,8 +429,9 @@ void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 
 	GLuint vao;
 	GLuint vbo;
-	//GLuint vboSize;
+	GLuint vbo2;
 	GLuint ibo;
+	GLuint ibo2;
 	GLuint iboBottomTape;
 	GLuint iboTopTape;
 
@@ -438,12 +439,16 @@ void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 	glBindVertexArray(vao);
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glEnableVertexAttribArray(0);
+	if (nobejct == 1) {
+		glGenBuffers(1, &vbo2);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	}
 
 	//glVertexAttribPointer(0, sizeof(glm::vec3) / sizeof(GLfloat),
 	//	GL_FLOAT, GL_FALSE, sizeof(glm::vec3),
 	//	((GLubyte *)NULL + (0)));
 
+	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, sizeof(glm::vec3) / sizeof(GLfloat),
 		GL_FLOAT, GL_FALSE, sizeof(PagPositionColor),						//POSITIONS
 		((GLubyte *)nullptr + (0)));

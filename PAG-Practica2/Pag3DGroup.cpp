@@ -3,7 +3,7 @@
 
 void Pag3DGroup::draw(GLFWwindow *_window, int nobject) {
 	for (int i = 0; i < numFicheros; i++) {
-		elements[i]->draw(_window, i * 2);
+		elements[i]->draw(_window, i);
 	}
 }
 
