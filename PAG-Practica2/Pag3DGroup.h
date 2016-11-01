@@ -7,7 +7,7 @@ class Pag3DGroup : public Pag3DElement {
 	Pag3DElement** elements;
 	int numFicheros;
 public:
-	void draw(GLFWwindow *_window, int nobject) override;
+	void draw() override;
 	Pag3DGroup();
 	Pag3DGroup(Structs::Fichero ficheros[], int _numFicheros);
 	Pag3DGroup(Pag3DGroup groups[], int _numGroups);

@@ -1,12 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <GL/glew.h> //glew SIEMPRE va antes del glfw
-#include <GLFW/glfw3.h>
-#include "gtc\matrix_transform.hpp"
-
-#include "PagShaderProgram.h"
-
 #include "PagRevolutionObject.h"
 
 #include <math.h>
@@ -14,12 +5,14 @@
 #define PI 3.14159265358979323846
 
 PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
-geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
+geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr), pointsColor(nullptr), 
+_indices(nullptr), _indicesBottom(nullptr), _indicesTop(nullptr),
 indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0) {};
 
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones,
 	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) :
-	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
+	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr), pointsColor(nullptr),
+	_indices(nullptr), _indicesBottom(nullptr), _indicesTop(nullptr),
 	indicesTopTape(nullptr), tamaGeometriaCoordText(0), tamaIndices(0) {
 
 	flagBottomTape = _flagBottomTape;
@@ -83,6 +76,40 @@ void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 		}
 	}
 	else indicesTopTape = nullptr;
+
+	if (orig.pointsColor != nullptr) {
+		pointsColor = new PagPositionColor[tamaGeometriaCoordText];
+		for (int i = 0; i < tamaGeometriaCoordText; i++) {
+			pointsColor[i] = orig.pointsColor[i];
+		}
+	}
+	else pointsColor = nullptr;
+
+	if (orig._indices != nullptr) {
+		_indices = new GLuint[tamaIndices - slices];
+		for (int i = 0; i < tamaIndices - slices; i++) {
+			_indices[i] = orig._indices[i];
+		}
+	}
+	else _indices = nullptr;
+
+	if (orig._indicesBottom != nullptr) {
+		_indicesBottom = new GLuint[slices + 1];
+		for (int i = 0; i < slices + 1; i++) {
+			_indicesBottom[i] = orig._indicesBottom[i];
+		}
+	}
+	else _indicesBottom = nullptr;
+
+	if (orig._indicesTop != nullptr) {
+		_indicesTop = new GLuint[slices + 1];
+		for (int i = 0; i < slices + 1; i++) {
+			_indicesTop[i] = orig._indicesTop[i];
+		}
+	}
+	else _indicesTop = nullptr;
+
+	std::cout << "SALGO" << std::endl;
 }
 
 
@@ -358,50 +385,15 @@ void PagRevolutionObject::revolution() {
 		indices[k] = 0xFFFF;
 		k++;
 	}
-}
 
-void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
-	struct PagPositionColor {
-		glm::vec3 position;
-		glm::vec3 color;
-	};
-
-	PagShaderProgram pepe;
-	//pepe.createShaderProgram("points");
-	pepe.createShaderProgram("pointsMultiColor");
-
-	//GLfloat sizes[] = { 8.0f, 10.0f , 20.0f , 15.0f , 8.0f, 30.0f, 12.0f, 22.0f };
-
-	/*PagPositionColor geometry[] = {
-
-		{ glm::vec3(-1.0, -1.0, -10.0), glm::vec3(1.0, 0.0, 0.0) },
-		{ glm::vec3(1.0,  -1.0, -10.0), glm::vec3(1.0, 0.0, 0.0) },
-		{ glm::vec3(-1.0, 1.0, -10.0), glm::vec3(0.0, 0.0, 0.0) },
-		{ glm::vec3(1.0, 1.0, -10.0), glm::vec3(0.0, 1.0, 0.0) },
-		{ glm::vec3(-1.0, -1.0, -5.0), glm::vec3(0.0, 1.0, 0.0) },
-		{ glm::vec3(1.0, -1.0, -5.0), glm::vec3(0.0, 0.0, 1.0) },
-		{ glm::vec3(-1.0, 1.0, -5.0), glm::vec3(0.0, 0.0, 1.0) },
-		{ glm::vec3(1.0, 1.0, -5.0), glm::vec3(0.0, 0.0, 0.0) },
-	};*/
-
-	/*glm::vec3 points[] = {
-		glm::vec3(1.0, -1.0, -10.0),
-		glm::vec3(-1.0,  1.0, -10.0),
-		glm::vec3(1.0,  1.0, -10.0),
-		glm::vec3(-1.0, -1.0, -5.0),
-		glm::vec3(1.0, -1.0, -5.0),
-		glm::vec3(-1.0,  1.0, -5.0),
-		glm::vec3(1.0,  1.0, -5.0)
-	};*/
-
-	PagPositionColor *pointsColor = new PagPositionColor[tamaGeometriaCoordText];
+	pointsColor = new PagPositionColor[tamaGeometriaCoordText];
 	for (int i = 0; i < tamaGeometriaCoordText; i++) {
 		pointsColor[i] = { glm::vec3((GLfloat)geometria[i].vertice.x, (GLfloat)geometria[i].vertice.y, (GLfloat)geometria[i].vertice.z),
-							glm::vec3(0.0, 0.0, 0.0) };
+			glm::vec3(0.0, 0.0, 0.0) };
 	}
 
 	int j = 0;
-	GLuint *_indices = new GLuint[tamaIndices - slices];
+	_indices = new GLuint[tamaIndices - slices];
 	for (int i = 0; i < tamaIndices; i++) {
 		if (indices[i] != 0xFFFF) {
 			_indices[j] = (GLuint)indices[i];
@@ -409,7 +401,6 @@ void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 		}
 	}
 
-	GLuint *_indicesBottom = nullptr;
 	if (flagBottomTape) {
 		_indicesBottom = new GLuint[slices + 1];
 		for (int i = 0; i < slices + 1; i++) {
@@ -418,7 +409,6 @@ void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 		}
 	}
 
-	GLuint *_indicesTop = nullptr;
 	if (flagTopTape) {
 		_indicesTop = new GLuint[slices + 1];
 		for (int i = 0; i < slices + 1; i++) {
@@ -426,12 +416,13 @@ void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 			pointsColor[_indicesTop[i]].color = glm::vec3(0.0, 0.0, 1.0);
 		}
 	}
+}
+
+void PagRevolutionObject::draw() {
 
 	GLuint vao;
 	GLuint vbo;
-	GLuint vbo2;
 	GLuint ibo;
-	GLuint ibo2;
 	GLuint iboBottomTape;
 	GLuint iboTopTape;
 
@@ -439,37 +430,19 @@ void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 	glBindVertexArray(vao);
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	if (nobejct == 1) {
-		glGenBuffers(1, &vbo2);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	}
-
-	//glVertexAttribPointer(0, sizeof(glm::vec3) / sizeof(GLfloat),
-	//	GL_FLOAT, GL_FALSE, sizeof(glm::vec3),
-	//	((GLubyte *)NULL + (0)));
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, sizeof(glm::vec3) / sizeof(GLfloat),
 		GL_FLOAT, GL_FALSE, sizeof(PagPositionColor),						//POSITIONS
 		((GLubyte *)nullptr + (0)));
+
 	//MULTICOLOR
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, sizeof(glm::vec3) / sizeof(GLfloat),
 		GL_FLOAT, GL_FALSE, sizeof(PagPositionColor),						//COLORS
 		((GLubyte *)nullptr + (sizeof(glm::vec3))));
 
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(PagPositionColor) * tamaGeometriaCoordText, pointsColor, GL_STATIC_DRAW);
-
-	//glGenBuffers(1, &vboSize);
-	//glBindBuffer(GL_ARRAY_BUFFER, vboSize);									//Enlazamos en nuevo vbo
-
-	//glEnableVertexAttribArray(2);
-	//glVertexAttribPointer(2, sizeof(GLfloat) / sizeof(GLfloat),
-	//	GL_FLOAT, GL_FALSE, sizeof(GLfloat),						//TAMAÑOS
-	//	((GLubyte *)NULL + (0)));
-
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(sizes), sizes, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -487,45 +460,21 @@ void PagRevolutionObject::draw(GLFWwindow *_window, int nobejct) {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * (slices + 1), _indicesTop, GL_STATIC_DRAW);
 	}
 
-	do {
-		glClear(GL_COLOR_BUFFER_BIT);
-		pepe.use();
-		pepe.setUniform("pointSize", 4.0f);
+	glBindVertexArray(vao);
 
-		glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
-		glm::mat4 ModelViewMatrix = glm::mat4(1.0f);
-		ProjectionMatrix *= glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
-		ModelViewMatrix *= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glDrawElements(GL_POINTS, (sizeof(GLuint) * (tamaIndices - slices)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
 
-		glm::mat4 ModelViewProjectionMatrix = ProjectionMatrix * ModelViewMatrix;
+	if (flagBottomTape) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboBottomTape);
+		glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+	}
 
-		//pepe.setUniform("vColor", glm::vec3(0.0f, 0.0f, 1.0f));		//No esta en el shader
-		//pepe.setUniform("mvpMatrix", glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f));
+	if (flagTopTape) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboTopTape);
+		glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+	}
 
-		pepe.setUniform("mvpMatrix", ModelViewProjectionMatrix);
-		glBindVertexArray(vao);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_POINTS, (sizeof(GLuint) * (tamaIndices - slices)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
-
-		if (flagBottomTape) {
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboBottomTape);
-			glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
-		}
-
-		if (flagTopTape) {
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboTopTape);
-			glDrawElements(GL_POINTS, (sizeof(GLuint) * (slices + 1)) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
-		}
-
-		glfwSwapBuffers(_window);
-		glfwPollEvents();
-	} while (glfwGetKey(_window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(_window) == 0);
-
-	delete[] pointsColor;
-	delete[] _indices;
-	if (flagTopTape) delete[] _indicesTop;
-	if (flagBottomTape) delete[] _indicesBottom;
 }
 
 PagRevolutionObject::~PagRevolutionObject() {
@@ -534,4 +483,8 @@ PagRevolutionObject::~PagRevolutionObject() {
 	if (indices != nullptr) delete[] indices;
 	if (indicesBottomTape != nullptr) delete[] indicesBottomTape;
 	if (indicesTopTape != nullptr) delete[] indicesTopTape;
+	if (pointsColor != nullptr) delete[] pointsColor;
+	if (_indices != nullptr) delete[] _indices;
+	if (flagTopTape) delete[] _indicesTop;
+	if (flagBottomTape) delete[] _indicesBottom;
 }

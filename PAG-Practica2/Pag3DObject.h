@@ -8,7 +8,7 @@ class Pag3DObject : public Pag3DElement {
 	PagAssistantClass lectorDatos;
 	PagRevolutionObject object;
 public:
-	void draw(GLFWwindow *_window, int nobject) override;
+	void draw() override;
 	Pag3DObject();
 	Pag3DObject(Structs::Fichero fichero);
 	Pag3DObject(const Pag3DObject &orig);

@@ -1,7 +1,7 @@
 #include "Pag3DObject.h"
 
-void Pag3DObject::draw(GLFWwindow *_window, int nobject) {
-	object.draw(_window, nobject);
+void Pag3DObject::draw() {
+	object.draw();
 }
 
 Pag3DObject::Pag3DObject() {}

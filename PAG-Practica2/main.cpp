@@ -3,6 +3,9 @@
 
 #include <GL/glew.h> //glew SIEMPRE va antes del glfw
 #include <GLFW/glfw3.h>
+#include "gtc\matrix_transform.hpp"
+
+#include "PagShaderProgram.h"
 
 #include "Pag3DObject.h"
 #include "Pag3DGroup.h"
@@ -87,15 +90,41 @@ int main(int argc, char** argv) {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	glViewport(0, 0, 1024, 768);
 
+	PagShaderProgram pepe;
+	pepe.createShaderProgram("pointsMultiColor");
+
 	if (perfiles > 1) {
 		objects.createObject();
-		objects.draw(window, perfiles);
 	}
 	else {
 		object.createObject();
-		object.draw(window, 0);
 	}
+
+	do {
+		glClear(GL_COLOR_BUFFER_BIT);
+		pepe.use();
+		pepe.setUniform("pointSize", 4.0f);
+
+		glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
+		glm::mat4 ModelViewMatrix = glm::mat4(1.0f);
+		ProjectionMatrix *= glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
+		ModelViewMatrix *= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+
+		glm::mat4 ModelViewProjectionMatrix = ProjectionMatrix * ModelViewMatrix;
+
+		pepe.setUniform("mvpMatrix", ModelViewProjectionMatrix);
+		
+		if (perfiles > 1) {
+			objects.draw();
+		}
+		else {
+			object.draw();
+		}
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
+
 	delete[] ficheros;
-	system("pause");
 	return 0;
 }
