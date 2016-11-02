@@ -7,7 +7,6 @@
 
 #include "PagShaderProgram.h"
 
-#include "Pag3DObject.h"
 #include "Pag3DGroup.h"
 #include "Structs.h"
 #include "PagRevolutionObject.h"
@@ -91,8 +90,7 @@ int main(int argc, char** argv) {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	glViewport(0, 0, 1024, 768);
 
-	PagShaderProgram pepe;
-	pepe.createShaderProgram("pointsMultiColor");
+	
 
 	if (perfiles > 1) {
 		objects.createObject();
@@ -103,8 +101,6 @@ int main(int argc, char** argv) {
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT);
-		pepe.use();
-		pepe.setUniform("pointSize", 4.0f);
 
 		glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
 		glm::mat4 ViewMatrix = glm::mat4(1.0f);
@@ -112,14 +108,12 @@ int main(int argc, char** argv) {
 		ViewMatrix *= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 
 		glm::mat4 ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
-
-		pepe.setUniform("mvpMatrix", ViewProjectionMatrix);
 		
 		if (perfiles > 1) {
-			objects.drawPointsCloud();
+			objects.drawPointsCloud(ViewProjectionMatrix);
 		}
 		else {
-			object.drawPointsCloud();
+			object.drawPointsCloud(ViewProjectionMatrix);
 		}
 
 		glfwSwapBuffers(window);

@@ -30,14 +30,19 @@ class PagRevolutionObject: public Pag3DObject{
 	GLuint *_indices;
 	GLuint *_indicesTop;
 	GLuint *_indicesBottom;
+
+	bool shaderCreado;
+
+	std::string nombreAlumno;
 public:
 	PagSubdivisionProfile subdivisionProfiles;
 	PagRevolutionObject();
 	PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal,
 		bool _flagBottomTape, bool _flagTopTape, int _slices);
+	PagRevolutionObject(Structs::Fichero _fichero);
 	void operator = (const PagRevolutionObject &orig);
 	void createObject() override;
-	void drawPointsCloud() override;
+	void drawPointsCloud(glm::mat4 _ViewProjectionMatrix) override;
 	Geometria& getGeometria() const { return *geometria; }
 	CoordTexturas& getCoordText() const { return *coordtext; }
 	int& getIndices() const { return *indices; }
@@ -46,6 +51,8 @@ public:
 	int getTamaGeometriaCoordText() const { return tamaGeometriaCoordText; }
 	int getTamaIndices() const { return tamaIndices; }
 	int getTamaIndicesTapes() const { return slices + 1; }
+	bool getFlagBottomTape() const { return flagBottomTape; }
+	bool getFlagTopTape() const { return flagTopTape; }
 	~PagRevolutionObject();
 };
 

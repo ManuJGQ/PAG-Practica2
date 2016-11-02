@@ -1,9 +1,10 @@
 #include "Pag3DGroup.h"
 #include "Pag3DObject.h"
+#include "PagRevolutionObject.h"
 
-void Pag3DGroup::drawPointsCloud() {
+void Pag3DGroup::drawPointsCloud(glm::mat4 _ViewProjectionMatrix) {
 	for (int i = 0; i < numObjects; i++) {
-		elements[i]->drawPointsCloud();
+		elements[i]->drawPointsCloud(_ViewProjectionMatrix);
 	}
 }
 
@@ -15,7 +16,7 @@ Pag3DGroup::Pag3DGroup(Structs::Fichero ficheros[], int _numObjects) : numObject
 	ModelMatrix = glm::mat4(1.0f);
 	elements = new Pag3DElement*[numObjects];
 	for (int i = 0; i < numObjects; i++) {
-		elements[i] = new Pag3DObject(ficheros[i]);
+		elements[i] = new PagRevolutionObject(ficheros[i]);
 	}
 }
 
@@ -30,9 +31,9 @@ Pag3DGroup::Pag3DGroup(const Pag3DGroup& orig) : numObjects(orig.numObjects) {
 	ModelMatrix *= orig.ModelMatrix;
 	elements = new Pag3DElement*[numObjects];
 	for (int i = 0; i < numObjects; i++) {
-		Pag3DObject* object = dynamic_cast<Pag3DObject*>(orig.elements[i]);
+		PagRevolutionObject* object = dynamic_cast<PagRevolutionObject*>(orig.elements[i]);
 		if(object != nullptr) {
-			elements[i] = new Pag3DObject(*object);
+			elements[i] = new PagRevolutionObject(*object);
 		}
 	}
 }
@@ -43,9 +44,9 @@ void Pag3DGroup::operator=(const Pag3DGroup& orig) {
 	numObjects = orig.numObjects;
 	elements = new Pag3DElement*[numObjects];
 	for (int i = 0; i < numObjects; i++) {
-		Pag3DObject* object = dynamic_cast<Pag3DObject*>(orig.elements[i]);
+		PagRevolutionObject* object = dynamic_cast<PagRevolutionObject*>(orig.elements[i]);
 		if (object != nullptr) {
-			elements[i] = new Pag3DObject(*object);
+			elements[i] = new PagRevolutionObject(*object);
 		}
 	}
 }

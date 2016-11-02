@@ -1,19 +1,21 @@
 #include "PagRevolutionObject.h"
 
 #include <math.h>
+#include "PagAssistantClass.h"
 
 #define PI 3.14159265358979323846
 
 PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
-geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr), pointsColor(nullptr), 
-_indices(nullptr), _indicesBottom(nullptr), _indicesTop(nullptr),
-indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0) {};
+	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
+	indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0),
+	pointsColor(nullptr), _indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {
+};
 
-PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones,
-	PuntosPerfil& _perfilOriginal, bool _flagBottomTape, bool _flagTopTape, int _slices) :
-	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr), pointsColor(nullptr),
-	_indices(nullptr), _indicesBottom(nullptr), _indicesTop(nullptr),
-	indicesTopTape(nullptr), tamaGeometriaCoordText(0), tamaIndices(0) {
+PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal,
+	bool _flagBottomTape, bool _flagTopTape, int _slices) : flagBottomTape(false), flagTopTape(false),
+	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr), indicesTopTape(nullptr),
+	tamaGeometriaCoordText(0), tamaIndices(0), pointsColor(nullptr),
+	_indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {
 
 	flagBottomTape = _flagBottomTape;
 	flagTopTape = _flagTopTape;
@@ -27,6 +29,12 @@ PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numD
 
 }
 
+PagRevolutionObject::PagRevolutionObject(Structs::Fichero _fichero) {
+	nombreAlumno = _fichero.nombreAlumno;
+	PagAssistantClass f{};
+	*this = f.leerDatos(_fichero);
+}
+
 void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 	flagBottomTape = orig.flagBottomTape;
 	flagTopTape = orig.flagTopTape;
@@ -34,6 +42,7 @@ void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 	tamaGeometriaCoordText = orig.tamaGeometriaCoordText;
 	tamaIndices = orig.tamaIndices;
 	subdivisionProfiles = orig.subdivisionProfiles;
+	shaderCreado = orig.shaderCreado;
 
 	if (orig.geometria != nullptr) {
 		geometria = new Geometria[tamaGeometriaCoordText];
@@ -418,7 +427,16 @@ void PagRevolutionObject::createObject() {
 	}
 }
 
-void PagRevolutionObject::drawPointsCloud() {
+void PagRevolutionObject::drawPointsCloud(glm::mat4 _ViewProjectionMatrix) {
+	if (!shaderCreado) {
+		shader.createShaderProgram("pointsMultiColor");
+		shaderCreado = true;
+		std::cout << "CREO SHADER" << std::endl;
+	}
+
+	shader.use();
+	shader.setUniform("pointSize", 4.0f);
+	shader.setUniform("mvpMatrix", _ViewProjectionMatrix);
 
 	GLuint vao;
 	GLuint vbo;

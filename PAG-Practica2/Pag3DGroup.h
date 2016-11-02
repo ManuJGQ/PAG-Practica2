@@ -8,7 +8,7 @@ class Pag3DGroup : public Pag3DElement {
 	int numObjects;
 	glm::mat4 ModelMatrix;
 public:
-	void drawPointsCloud() override;
+	void drawPointsCloud(glm::mat4 ViewProjectionMatrix) override;
 	void createObject() override;
 	Pag3DGroup();
 	Pag3DGroup(Structs::Fichero ficheros[], int _numObjects);

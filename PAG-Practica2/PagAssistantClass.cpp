@@ -5,23 +5,17 @@
 
 #define Epsilon 0.000001
 
-PagAssistantClass::PagAssistantClass() : slices(0), flagBottomTape(false), flagTopTape(false) {
-}
+PagAssistantClass::PagAssistantClass(){}
 
-PagAssistantClass::PagAssistantClass(std::string archivoIN, int _slices, std::string _nombreAlumno) :
-	nombreAlumno(_nombreAlumno), archivo(archivoIN), slices(_slices), flagBottomTape(false),
-	flagTopTape(false) {
-}
+void PagAssistantClass::operator=(const PagAssistantClass& orig) {}
 
-void PagAssistantClass::operator=(const PagAssistantClass& orig) {
-	nombreAlumno = orig.nombreAlumno;
-	slices = orig.slices;
-	archivo = orig.archivo;
-	flagTopTape = orig.flagTopTape;
-	flagBottomTape = orig.flagBottomTape;
-}
+PagRevolutionObject PagAssistantClass::leerDatos(Structs::Fichero _fichero) {
+	int slices = _fichero.numSlices;
+	std::string nombreAlumno = _fichero.nombreAlumno;
+	std::string archivo = _fichero.archivoIN;
+	bool flagBottomTape = false;
+	bool flagTopTape = false;
 
-PagRevolutionObject PagAssistantClass::leerDatos() {
 	int linea;
 	linea = nombreAlumno.find('-');
 	nombreAlumno = nombreAlumno.substr(0, linea);
@@ -94,7 +88,7 @@ PagRevolutionObject PagAssistantClass::leerDatos() {
 
 }
 
-void PagAssistantClass::devolverDatos(const PagRevolutionObject &object) const {
+void PagAssistantClass::devolverDatos(const PagRevolutionObject &object, std::string nombreAlumno) const {
 	Geometria *geometria = &object.getGeometria();
 	CoordTexturas *coordtext = &object.getCoordText();
 	int *indices = &object.getIndices();
@@ -153,7 +147,7 @@ void PagAssistantClass::devolverDatos(const PagRevolutionObject &object) const {
 	}
 	ficheroInd.close();
 
-	if (flagBottomTape) {
+	if (object.getFlagBottomTape()) {
 		int *indicesBottom = &object.getIndicesBottomTape();
 		nombreFichero = path;
 		nombreFichero += "-out-ind_BottomTape.txt";
@@ -166,7 +160,7 @@ void PagAssistantClass::devolverDatos(const PagRevolutionObject &object) const {
 		ficheroInd.close();
 	}
 
-	if (flagTopTape) {
+	if (object.getFlagTopTape()) {
 		int *indicesTop = &object.getIndicesTopTape();
 		nombreFichero = path;
 		nombreFichero += "-out-ind_TopTape.txt";
