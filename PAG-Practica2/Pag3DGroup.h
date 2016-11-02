@@ -5,15 +5,16 @@
 
 class Pag3DGroup : public Pag3DElement {
 	Pag3DElement** elements;
-	int numFicheros;
+	int numObjects;
+	glm::mat4 ModelMatrix;
 public:
-	void draw() override;
+	void drawPointsCloud() override;
+	void createObject() override;
 	Pag3DGroup();
-	Pag3DGroup(Structs::Fichero ficheros[], int _numFicheros);
-	Pag3DGroup(Pag3DGroup groups[], int _numGroups);
+	Pag3DGroup(Structs::Fichero ficheros[], int _numObjects);
+	Pag3DGroup(Pag3DGroup groups[], int _numObjects);
 	Pag3DGroup(const Pag3DGroup &orig);
 	void operator = (const Pag3DGroup &orig);
-	void createObject() override;
 	~Pag3DGroup();
 };
 

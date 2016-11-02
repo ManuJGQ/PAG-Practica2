@@ -36,4 +36,9 @@ namespace Structs {
 		std::string nombreAlumno;
 	};
 
+	struct PagPositionColor {
+		glm::vec3 position;
+		glm::vec3 color;
+	};
+
 }

@@ -113,7 +113,7 @@ void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 }
 
 
-void PagRevolutionObject::revolution() {
+void PagRevolutionObject::createObject() {
 	int numPuntosPerfil = subdivisionProfiles.getNumPuntosPerfil();
 
 	int numTapas = 0;
@@ -418,7 +418,7 @@ void PagRevolutionObject::revolution() {
 	}
 }
 
-void PagRevolutionObject::draw() {
+void PagRevolutionObject::drawPointsCloud() {
 
 	GLuint vao;
 	GLuint vbo;

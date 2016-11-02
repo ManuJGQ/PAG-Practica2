@@ -10,13 +10,14 @@
 #include "Pag3DObject.h"
 #include "Pag3DGroup.h"
 #include "Structs.h"
+#include "PagRevolutionObject.h"
 
 int main(int argc, char** argv) {
 	int perfiles;
 	std::cout << "Introduce el numero de perfiles" << std::endl;
 	std::cin >> perfiles;
 
-	Fichero *ficheros = new Fichero[perfiles];
+	Structs::Fichero *ficheros = new Structs::Fichero[perfiles];
 
 	int j = perfiles;
 	while (j != 0) {
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
 		std::cin >> archivo;
 		path += archivo;
 
-		Fichero _fichero;
+		Structs::Fichero _fichero;
 		_fichero.nombreAlumno = archivo;
 		_fichero.archivoIN = path;
 		ficheros[perfiles - j] = _fichero;
@@ -43,11 +44,11 @@ int main(int argc, char** argv) {
 		ficheros[i].numSlices = slices;
 	}
 	Pag3DGroup objects;
-	Pag3DObject object;
+	PagRevolutionObject object;
 	if (perfiles > 1) {
 		objects = Pag3DGroup(ficheros, perfiles);
 	}
-	else object = Pag3DObject(Structs::Fichero(ficheros[0]));
+	else object = PagRevolutionObject(Structs::Fichero(ficheros[0]));
 
 
 	std::cout << "Starting application" << std::endl;
@@ -106,19 +107,19 @@ int main(int argc, char** argv) {
 		pepe.setUniform("pointSize", 4.0f);
 
 		glm::mat4 ProjectionMatrix = glm::mat4(1.0f);
-		glm::mat4 ModelViewMatrix = glm::mat4(1.0f);
+		glm::mat4 ViewMatrix = glm::mat4(1.0f);
 		ProjectionMatrix *= glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.f);
-		ModelViewMatrix *= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+		ViewMatrix *= glm::lookAt(glm::vec3(20.0, 20.0, -20.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 
-		glm::mat4 ModelViewProjectionMatrix = ProjectionMatrix * ModelViewMatrix;
+		glm::mat4 ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
 
-		pepe.setUniform("mvpMatrix", ModelViewProjectionMatrix);
+		pepe.setUniform("mvpMatrix", ViewProjectionMatrix);
 		
 		if (perfiles > 1) {
-			objects.draw();
+			objects.drawPointsCloud();
 		}
 		else {
-			object.draw();
+			object.drawPointsCloud();
 		}
 
 		glfwSwapBuffers(window);

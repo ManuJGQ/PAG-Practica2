@@ -10,13 +10,12 @@
 #include "PagShaderProgram.h"
 
 #include "PagSubdivisionProfile.h"
+#include "Pag3DObject.h"
 
-struct PagPositionColor {
-	glm::vec3 position;
-	glm::vec3 color;
-};
+class PagRevolutionObject: public Pag3DObject{
+	PagShaderProgram shader;
+	glm::mat4 ModelMatrix;
 
-class PagRevolutionObject{
 	bool flagBottomTape;
 	bool flagTopTape;
 	Geometria *geometria;
@@ -37,8 +36,8 @@ public:
 	PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal,
 		bool _flagBottomTape, bool _flagTopTape, int _slices);
 	void operator = (const PagRevolutionObject &orig);
-	void revolution();
-	void draw();
+	void createObject() override;
+	void drawPointsCloud() override;
 	Geometria& getGeometria() const { return *geometria; }
 	CoordTexturas& getCoordText() const { return *coordtext; }
 	int& getIndices() const { return *indices; }
