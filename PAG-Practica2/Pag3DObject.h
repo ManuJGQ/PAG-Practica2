@@ -2,7 +2,6 @@
 
 #include "Pag3DElement.h"
 #include "PagShaderProgram.h"
-#include "Structs.h"
 
 class Pag3DObject : public Pag3DElement {
 	glm::mat4 ModelMatrix;

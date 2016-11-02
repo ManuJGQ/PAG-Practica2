@@ -7,9 +7,7 @@
 
 PagAssistantClass::PagAssistantClass(){}
 
-void PagAssistantClass::operator=(const PagAssistantClass& orig) {}
-
-PagRevolutionObject PagAssistantClass::leerDatos(Structs::Fichero _fichero) {
+PagRevolutionObject PagAssistantClass::leerDatos(Structs::Fichero _fichero) const {
 	int slices = _fichero.numSlices;
 	std::string nombreAlumno = _fichero.nombreAlumno;
 	std::string archivo = _fichero.archivoIN;
@@ -78,17 +76,16 @@ PagRevolutionObject PagAssistantClass::leerDatos(Structs::Fichero _fichero) {
 
 		perfil = perfilTemp;
 
-		return PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, *perfil,
-			flagBottomTape, flagTopTape, slices);
+		return PagRevolutionObject(numPuntosPerfilOriginal, numDivisiones, perfil,
+			flagBottomTape, flagTopTape, slices, nombreAlumno);
 
 	}
 	catch (std::string &e) {
 		std::cout << "ERROR: " << e << std::endl;
 	}
-
 }
 
-void PagAssistantClass::devolverDatos(const PagRevolutionObject &object, std::string nombreAlumno) const {
+void PagAssistantClass::devolverDatos(const PagRevolutionObject &object, std::string nombreAlumno) {
 	Geometria *geometria = &object.getGeometria();
 	CoordTexturas *coordtext = &object.getCoordText();
 	int *indices = &object.getIndices();

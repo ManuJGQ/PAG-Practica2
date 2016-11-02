@@ -1,27 +1,28 @@
 #include "PagRevolutionObject.h"
+#include "PagAssistantClass.h"
 
 #include <math.h>
-#include "PagAssistantClass.h"
 
 #define PI 3.14159265358979323846
 
 PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
 	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
 	indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0),
-	pointsColor(nullptr), _indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {
-};
+	pointsColor(nullptr), _indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {};
 
-PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal,
-	bool _flagBottomTape, bool _flagTopTape, int _slices) : flagBottomTape(false), flagTopTape(false),
+PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil *_perfilOriginal,
+	bool _flagBottomTape, bool _flagTopTape, int _slices, std::string _nombreAlumno) : flagBottomTape(false), flagTopTape(false),
 	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr), indicesTopTape(nullptr),
 	tamaGeometriaCoordText(0), tamaIndices(0), pointsColor(nullptr),
-	_indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {
+	_indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false), nombreAlumno(_nombreAlumno) {
 
 	flagBottomTape = _flagBottomTape;
 	flagTopTape = _flagTopTape;
 
 	subdivisionProfiles = PagSubdivisionProfile(_numPuntosPerfilOriginal, _numDivisiones,
 		_perfilOriginal);
+
+	subdivisionProfiles.subdivisionPolilineas();
 
 	slices = _slices;
 
@@ -30,9 +31,12 @@ PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numD
 }
 
 PagRevolutionObject::PagRevolutionObject(Structs::Fichero _fichero) {
-	nombreAlumno = _fichero.nombreAlumno;
 	PagAssistantClass f{};
 	*this = f.leerDatos(_fichero);
+}
+
+PagRevolutionObject::PagRevolutionObject(const PagRevolutionObject & orig){
+	*this = orig;
 }
 
 void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
@@ -43,6 +47,7 @@ void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 	tamaIndices = orig.tamaIndices;
 	subdivisionProfiles = orig.subdivisionProfiles;
 	shaderCreado = orig.shaderCreado;
+	nombreAlumno = orig.nombreAlumno;
 
 	if (orig.geometria != nullptr) {
 		geometria = new Geometria[tamaGeometriaCoordText];
@@ -118,7 +123,6 @@ void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 	}
 	else _indicesTop = nullptr;
 
-	std::cout << "SALGO" << std::endl;
 }
 
 
@@ -425,13 +429,15 @@ void PagRevolutionObject::createObject() {
 			pointsColor[_indicesTop[i]].color = glm::vec3(0.0, 0.0, 1.0);
 		}
 	}
+
+	PagAssistantClass f{};
+	f.devolverDatos(*this, nombreAlumno);
 }
 
 void PagRevolutionObject::drawPointsCloud(glm::mat4 _ViewProjectionMatrix) {
 	if (!shaderCreado) {
 		shader.createShaderProgram("pointsMultiColor");
 		shaderCreado = true;
-		std::cout << "CREO SHADER" << std::endl;
 	}
 
 	shader.use();

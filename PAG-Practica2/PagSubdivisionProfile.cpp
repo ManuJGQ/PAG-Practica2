@@ -4,10 +4,13 @@ PagSubdivisionProfile::PagSubdivisionProfile() : perfilOriginal(nullptr),
 perfilSubdividido(nullptr), numDivisiones(0), numPuntosPerfilOriginal(0), numPuntosPerfilSubdividido(0) {};
 
 PagSubdivisionProfile::PagSubdivisionProfile(int _numPuntosPerfilOriginal, int _numDivisiones,
-	PuntosPerfil& _perfilOriginal) : numDivisiones(_numDivisiones),
+	PuntosPerfil *_perfilOriginal) : numDivisiones(_numDivisiones),
 	numPuntosPerfilOriginal(_numPuntosPerfilOriginal) {
 
-	perfilOriginal = &_perfilOriginal;
+	perfilOriginal = new PuntosPerfil[numPuntosPerfilOriginal];
+	for (int i = 0; i < numPuntosPerfilOriginal; i++) {
+		perfilOriginal[i] = _perfilOriginal[i];
+	}
 
 	numPuntosPerfilSubdividido = numPuntosPerfilOriginal;
 	perfilSubdividido = new PuntosPerfil[numPuntosPerfilSubdividido];
@@ -72,6 +75,10 @@ void PagSubdivisionProfile::subdivisionPolilineas() {
 }
 
 PagSubdivisionProfile::~PagSubdivisionProfile() {
-	delete[] perfilOriginal;
-	delete[] perfilSubdividido;
+	if (perfilOriginal != nullptr) {
+		std::cout << perfilOriginal << std::endl;
+		std::cout << numDivisiones << std::endl;
+		delete[] perfilOriginal;
+	}
+	if (perfilSubdividido != nullptr) delete[] perfilSubdividido;
 }

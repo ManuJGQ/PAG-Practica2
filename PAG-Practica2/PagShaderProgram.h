@@ -1,12 +1,9 @@
 #pragma once
 
-#include <stdlib.h>
 #include <iostream>
 #include <GL/glew.h> //glew SIEMPRE va antes del glfw
 #include <fstream>
-#include <ios>
 #include <sstream>
-#include <string>
 #include "glm.hpp"
 
 class PagShaderProgram

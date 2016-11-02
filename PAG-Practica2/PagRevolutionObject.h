@@ -1,11 +1,6 @@
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <GL/glew.h> //glew SIEMPRE va antes del glfw
-#include <GLFW/glfw3.h>
-#include "gtc\matrix_transform.hpp"
+#include "glm.hpp"
 
 #include "PagShaderProgram.h"
 
@@ -37,9 +32,10 @@ class PagRevolutionObject: public Pag3DObject{
 public:
 	PagSubdivisionProfile subdivisionProfiles;
 	PagRevolutionObject();
-	PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil& _perfilOriginal,
-		bool _flagBottomTape, bool _flagTopTape, int _slices);
+	PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil *_perfilOriginal,
+		bool _flagBottomTape, bool _flagTopTape, int _slices, std::string _nombreAlumno);
 	PagRevolutionObject(Structs::Fichero _fichero);
+	PagRevolutionObject(const PagRevolutionObject &orig);
 	void operator = (const PagRevolutionObject &orig);
 	void createObject() override;
 	void drawPointsCloud(glm::mat4 _ViewProjectionMatrix) override;

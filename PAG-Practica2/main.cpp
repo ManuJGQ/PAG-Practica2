@@ -90,8 +90,6 @@ int main(int argc, char** argv) {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	glViewport(0, 0, 1024, 768);
 
-	
-
 	if (perfiles > 1) {
 		objects.createObject();
 	}

@@ -1,7 +1,5 @@
 #include "PagShaderProgram.h"
 
-
-
 PagShaderProgram::PagShaderProgram()
 {
 	handler = 0;

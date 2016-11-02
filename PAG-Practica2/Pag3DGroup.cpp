@@ -1,5 +1,4 @@
 #include "Pag3DGroup.h"
-#include "Pag3DObject.h"
 #include "PagRevolutionObject.h"
 
 void Pag3DGroup::drawPointsCloud(glm::mat4 _ViewProjectionMatrix) {
