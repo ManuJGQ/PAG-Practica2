@@ -75,10 +75,6 @@ void PagSubdivisionProfile::subdivisionPolilineas() {
 }
 
 PagSubdivisionProfile::~PagSubdivisionProfile() {
-	if (perfilOriginal != nullptr) {
-		std::cout << perfilOriginal << std::endl;
-		std::cout << numDivisiones << std::endl;
-		delete[] perfilOriginal;
-	}
+	if (perfilOriginal != nullptr) delete[] perfilOriginal;
 	if (perfilSubdividido != nullptr) delete[] perfilSubdividido;
 }
