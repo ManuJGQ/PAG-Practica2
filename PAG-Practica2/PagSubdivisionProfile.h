@@ -5,7 +5,6 @@
 using namespace Structs;
 
 class PagSubdivisionProfile{
-private:
 	PuntosPerfil* perfilOriginal;
 	PuntosPerfil* perfilSubdividido;
 	int numDivisiones;

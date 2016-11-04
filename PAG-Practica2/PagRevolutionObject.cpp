@@ -5,11 +5,17 @@
 
 #define PI 3.14159265358979323846
 
+/**
+ * Constructor por defecto de PagRevolutionObject
+ */
 PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
 geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
 indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0),
 pointsColor(nullptr), _indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {};
 
+/**
+ * Constructor parametrizado de PagRevolutionObject
+ */
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil *_perfilOriginal,
 	bool _flagBottomTape, bool _flagTopTape, int _slices, std::string _nombreAlumno) : flagBottomTape(false), flagTopTape(false),
 	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr), indicesTopTape(nullptr),
@@ -30,15 +36,24 @@ PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numD
 
 }
 
+/**
+ * Constructor parametrizado de PagRevolutionObject, pasandole un Fichero txt
+ */
 PagRevolutionObject::PagRevolutionObject(Structs::Fichero _fichero) {
 	PagAssistantClass f{};
 	*this = f.leerDatos(_fichero);
 }
 
+/**
+* Constructor de copia de PagRevolutionObejct
+*/
 PagRevolutionObject::PagRevolutionObject(const PagRevolutionObject & orig) {
 	*this = orig;
 }
 
+/**
+* Operador igual de PagRevolutionObejct
+*/
 void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 	flagBottomTape = orig.flagBottomTape;
 	flagTopTape = orig.flagTopTape;
@@ -125,7 +140,9 @@ void PagRevolutionObject::operator=(const PagRevolutionObject & orig) {
 
 }
 
-
+/**
+ * Funcion encargada de crear la Geometria y Topologia del PagRevolutionObject
+ */
 void PagRevolutionObject::createObject() {
 	int numPuntosPerfil = subdivisionProfiles.getNumPuntosPerfil();
 
@@ -401,6 +418,8 @@ void PagRevolutionObject::createObject() {
 		k++;
 	}
 
+	//Arrays para los vbo y ibos
+
 	pointsColor = new PagPositionColor[tamaGeometriaCoordText];
 	for (int i = 0; i < tamaGeometriaCoordText; i++) {
 		pointsColor[i] = { glm::vec3((GLfloat)geometria[i].vertice.x, (GLfloat)geometria[i].vertice.y, (GLfloat)geometria[i].vertice.z),
@@ -436,6 +455,9 @@ void PagRevolutionObject::createObject() {
 	f.devolverDatos(*this, nombreAlumno);
 }
 
+/**
+ * Funcion encargada de pintar el PagRevolutionObject en nunbe de puntos
+ */
 void PagRevolutionObject::drawPointsCloud(glm::mat4 _ViewProjectionMatrix) {
 	if (!shaderCreado) {
 		shader.createShaderProgram("pointsMultiColor");
@@ -463,6 +485,7 @@ void PagRevolutionObject::drawPointsCloud(glm::mat4 _ViewProjectionMatrix) {
 		((GLubyte *)nullptr + (0)));
 
 	//MULTICOLOR
+
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, sizeof(glm::vec3) / sizeof(GLfloat),
 		GL_FLOAT, GL_FALSE, sizeof(PagPositionColor),						//COLORS
@@ -503,6 +526,9 @@ void PagRevolutionObject::drawPointsCloud(glm::mat4 _ViewProjectionMatrix) {
 
 }
 
+/**
+ * Destructor de PagRevolutionObject
+ */
 PagRevolutionObject::~PagRevolutionObject() {
 	if (geometria != nullptr) delete[] geometria;
 	if (coordtext != nullptr) delete[] coordtext;

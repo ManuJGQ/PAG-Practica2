@@ -5,8 +5,14 @@
 
 #define Epsilon 0.000001
 
+/**
+ * Constructor por defectos de PagAssistantClass
+ */
 PagAssistantClass::PagAssistantClass(){}
 
+/**
+ * Funcion encargada de leer ficheros txt del disco
+ */
 PagRevolutionObject PagAssistantClass::leerDatos(Structs::Fichero _fichero) const {
 	int slices = _fichero.numSlices;
 	std::string nombreAlumno = _fichero.nombreAlumno;
@@ -85,6 +91,9 @@ PagRevolutionObject PagAssistantClass::leerDatos(Structs::Fichero _fichero) cons
 	}
 }
 
+/**
+ * Funcion encargada de escribir los ficheros txt en disco
+ */
 void PagAssistantClass::devolverDatos(const PagRevolutionObject &object, std::string nombreAlumno) {
 	Geometria *geometria = &object.getGeometria();
 	CoordTexturas *coordtext = &object.getCoordText();
@@ -171,4 +180,7 @@ void PagAssistantClass::devolverDatos(const PagRevolutionObject &object, std::st
 	}
 }
 
+/**
+* Destructor de Pag3AssistantClass
+*/
 PagAssistantClass::~PagAssistantClass() {}

@@ -10,7 +10,6 @@ public:
 	void drawPointsCloud(glm::mat4 ViewProjectionMatrix) override = 0;
 	void createObject() override = 0;
 	Pag3DObject();
-	Pag3DObject(const Pag3DObject &orig);
 	~Pag3DObject();
 };
 

@@ -1,8 +1,14 @@
 #include "PagSubdivisionProfile.h"
 
+/**
+ * Constructor por defecto de PagSubdivisionProfile
+ */
 PagSubdivisionProfile::PagSubdivisionProfile() : perfilOriginal(nullptr),
 perfilSubdividido(nullptr), numDivisiones(0), numPuntosPerfilOriginal(0), numPuntosPerfilSubdividido(0) {};
 
+/**
+ * Constructor parametrizado de PagSubdivisionProfile
+ */
 PagSubdivisionProfile::PagSubdivisionProfile(int _numPuntosPerfilOriginal, int _numDivisiones,
 	PuntosPerfil *_perfilOriginal) : numDivisiones(_numDivisiones),
 	numPuntosPerfilOriginal(_numPuntosPerfilOriginal) {
@@ -19,6 +25,9 @@ PagSubdivisionProfile::PagSubdivisionProfile(int _numPuntosPerfilOriginal, int _
 	}
 }
 
+/**
+ * Operador igual de PagSubdivisionProfile
+ */
 void PagSubdivisionProfile::operator=(const PagSubdivisionProfile & orig) {
 	numPuntosPerfilOriginal = orig.numPuntosPerfilOriginal;
 	numPuntosPerfilSubdividido = orig.numPuntosPerfilSubdividido;
@@ -35,6 +44,9 @@ void PagSubdivisionProfile::operator=(const PagSubdivisionProfile & orig) {
 	}
 }
 
+/**
+ * Funcion encargada de subdividir el perfil de revolucion
+ */
 void PagSubdivisionProfile::subdivisionPolilineas() {
 	if (numPuntosPerfilOriginal > 2 && numDivisiones > 0) {
 
@@ -74,6 +86,9 @@ void PagSubdivisionProfile::subdivisionPolilineas() {
 	}
 }
 
+/**
+ * Destructor de PagSubdivisionProfile
+ */
 PagSubdivisionProfile::~PagSubdivisionProfile() {
 	if (perfilOriginal != nullptr) delete[] perfilOriginal;
 	if (perfilSubdividido != nullptr) delete[] perfilSubdividido;
