@@ -6,9 +6,9 @@
 #define PI 3.14159265358979323846
 
 PagRevolutionObject::PagRevolutionObject() : flagBottomTape(false), flagTopTape(false),
-	geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
-	indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0),
-	pointsColor(nullptr), _indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {};
+geometria(nullptr), coordtext(nullptr), indices(nullptr), indicesBottomTape(nullptr),
+indicesTopTape(nullptr), slices(0), tamaGeometriaCoordText(0), tamaIndices(0),
+pointsColor(nullptr), _indices(nullptr), _indicesTop(nullptr), _indicesBottom(nullptr), shaderCreado(false) {};
 
 PagRevolutionObject::PagRevolutionObject(int _numPuntosPerfilOriginal, int _numDivisiones, PuntosPerfil *_perfilOriginal,
 	bool _flagBottomTape, bool _flagTopTape, int _slices, std::string _nombreAlumno) : flagBottomTape(false), flagTopTape(false),
@@ -35,7 +35,7 @@ PagRevolutionObject::PagRevolutionObject(Structs::Fichero _fichero) {
 	*this = f.leerDatos(_fichero);
 }
 
-PagRevolutionObject::PagRevolutionObject(const PagRevolutionObject & orig){
+PagRevolutionObject::PagRevolutionObject(const PagRevolutionObject & orig) {
 	*this = orig;
 }
 
@@ -131,6 +131,7 @@ void PagRevolutionObject::createObject() {
 
 	int numTapas = 0;
 	int cambioIndice = 0;
+	int cambionIndiceTop = 0;
 	if (flagBottomTape) {
 		numTapas++;
 		cambioIndice++;
@@ -139,7 +140,7 @@ void PagRevolutionObject::createObject() {
 	}
 	if (flagTopTape) {
 		numTapas++;
-
+		cambionIndiceTop++;
 		indicesTopTape = new int[slices + 1];
 	}
 
@@ -344,10 +345,11 @@ void PagRevolutionObject::createObject() {
 
 		modulo[0] = sumatorio;
 
-		for (int i = numTapas + 1; i < numPuntosPerfil - numTapas; i++) {
+		for (int i = numTapas + cambioIndice - cambionIndiceTop; i < numPuntosPerfil - numTapas; i++) {
 
 			PuntosVertices p1 = geometria[(i - cambioIndice) * slices + j].vertice;
-			PuntosVertices p2 = geometria[(i - cambioIndice - 1) * slices + j].vertice;
+			PuntosVertices p2 = { 0,0,0 };
+			if (i - cambioIndice > 0) p2 = geometria[(i - cambioIndice - 1) * slices + j].vertice;
 
 			PuntosVertices v1;
 			v1.x = p1.x - p2.x;
@@ -358,12 +360,12 @@ void PagRevolutionObject::createObject() {
 
 			sumatorio += modV1;
 
-			modulo[i - 2] = sumatorio;
+			modulo[i - numTapas + cambioIndice - cambionIndiceTop] = sumatorio;
 		}
 
-		for (int i = 2; i < numPuntosPerfil - 2; i++) {
+		for (int i = numTapas + cambioIndice - cambionIndiceTop; i < numPuntosPerfil - numTapas; i++) {
 
-			double t = (modulo[i - 2]) / (sumatorio);
+			double t = (modulo[i - numTapas + cambioIndice - cambionIndiceTop]) / (sumatorio);
 
 			coordtext[(i - cambioIndice) * slices + j].s = s;
 			coordtext[(i - cambioIndice) * slices + j].t = t;
