@@ -12,6 +12,7 @@
 #include "PagRevolutionObject.h"
 
 int main(int argc, char** argv) {
+	// Leemos los datos y txt del usuario
 	int perfiles;
 	std::cout << "Introduce el numero de perfiles" << std::endl;
 	std::cin >> perfiles;
@@ -42,6 +43,8 @@ int main(int argc, char** argv) {
 	for (int i = 0; i < perfiles; i++) {
 		ficheros[i].numSlices = slices;
 	}
+
+	//Creamos la jerarquia de objetos
 	Pag3DGroup objects;
 	PagRevolutionObject object;
 	if (perfiles > 1) {
@@ -49,7 +52,7 @@ int main(int argc, char** argv) {
 	}
 	else object = PagRevolutionObject(Structs::Fichero(ficheros[0]));
 
-
+	//Preparamos la ventana
 	std::cout << "Starting application" << std::endl;
 
 	if (!glfwInit()) {
@@ -90,6 +93,7 @@ int main(int argc, char** argv) {
 	glEnable(GL_PROGRAM_POINT_SIZE);
 	glViewport(0, 0, 1024, 768);
 
+	//Creamos las Geometrias y Topologias de los diferentes objetos
 	if (perfiles > 1) {
 		objects.createObject();
 	}
@@ -97,6 +101,7 @@ int main(int argc, char** argv) {
 		object.createObject();
 	}
 
+	//Dibujamos los objetos
 	do {
 		glClear(GL_COLOR_BUFFER_BIT);
 

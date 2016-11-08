@@ -11,10 +11,17 @@ class PagRevolutionObject: public Pag3DObject{
 	PagShaderProgram shader;
 	glm::mat4 ModelMatrix;
 
+	//Flags para saber si tiene tapa
 	bool flagBottomTape;
 	bool flagTopTape;
+
+	//Arrays que almacenan la geometria y Topologia
 	Geometria *geometria;
+	Geometria *geometriaBottomTape;
+	Geometria *geometriaTopTape;
 	CoordTexturas *coordtext;
+	CoordTexturas *coordtextBottomTape;
+	CoordTexturas *coordtextTopTape;
 	int *indices;
 	int *indicesBottomTape;
 	int *indicesTopTape;
@@ -26,8 +33,10 @@ class PagRevolutionObject: public Pag3DObject{
 	GLuint *_indicesTop;
 	GLuint *_indicesBottom;
 
+	//Booleano para lazy initialization
 	bool shaderCreado;
 
+	//String con el nombre de los txt
 	std::string nombreAlumno;
 public:
 	PagSubdivisionProfile subdivisionProfiles;
@@ -39,6 +48,8 @@ public:
 	void operator = (const PagRevolutionObject &orig);
 	void createObject() override;
 	void drawPointsCloud(glm::mat4 _ViewProjectionMatrix) override;
+
+	//Metodos Gets
 	Geometria& getGeometria() const { return *geometria; }
 	CoordTexturas& getCoordText() const { return *coordtext; }
 	int& getIndices() const { return *indices; }
@@ -49,6 +60,7 @@ public:
 	int getTamaIndicesTapes() const { return slices + 1; }
 	bool getFlagBottomTape() const { return flagBottomTape; }
 	bool getFlagTopTape() const { return flagTopTape; }
+
 	~PagRevolutionObject();
 };
 
